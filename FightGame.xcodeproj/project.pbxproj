@@ -67,13 +67,10 @@
 			children = (
 				098ABBB21E1C362E00DA9417 /* AppDelegate.h */,
 				098ABBB31E1C362E00DA9417 /* AppDelegate.m */,
-				098ABBB51E1C362E00DA9417 /* GameScene.sks */,
-				098ABBB71E1C362E00DA9417 /* Actions.sks */,
 				098ABBB91E1C362E00DA9417 /* GameScene.h */,
 				098ABBBA1E1C362E00DA9417 /* GameScene.m */,
 				098ABBBC1E1C362E00DA9417 /* GameViewController.h */,
 				098ABBBD1E1C362E00DA9417 /* GameViewController.m */,
-				098ABBBF1E1C362E00DA9417 /* Main.storyboard */,
 				098ABBC21E1C362E00DA9417 /* Assets.xcassets */,
 				098ABBC41E1C362E00DA9417 /* LaunchScreen.storyboard */,
 				098ABBC71E1C362E00DA9417 /* Info.plist */,
@@ -85,6 +82,9 @@
 		098ABBAF1E1C362E00DA9417 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				098ABBBF1E1C362E00DA9417 /* Main.storyboard */,
+				098ABBB51E1C362E00DA9417 /* GameScene.sks */,
+				098ABBB71E1C362E00DA9417 /* Actions.sks */,
 				098ABBB01E1C362E00DA9417 /* main.m */,
 			);
 			name = "Supporting Files";
