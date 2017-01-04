@@ -16,7 +16,12 @@
     
     SKSpriteNode *_upperHUD;
     SKSpriteNode *_lowerHUD;
+    
     SKSpriteNode *_mainActionScreen;
+    SKShapeNode *_upperLeftScreen;
+    SKShapeNode *_upperRightScreen;
+    SKShapeNode *_lowerLeftScreen;
+    SKShapeNode *_lowerRightScreen;
     
     SKSpriteNode *_opponentSprite;
 }
@@ -38,26 +43,12 @@
     //Opponent
     [self addOpponent];
     
-    /*
-    //CGFloat w = (self.size.width + self.size.height) * 0.05;
-    // Create shape node to use during mouse interaction
-    _spinnyNode = [SKShapeNode shapeNodeWithRectOfSize:CGSizeMake(w, w) cornerRadius:w * 0.3];
-    _spinnyNode.lineWidth = 2.5;
-     */
-}
-
-- (void)touchDownAtPoint:(CGPoint)pos {
-    /*
-    SKShapeNode *n = [_spinnyNode copy];
-    n.position = pos;
-    n.strokeColor = [SKColor greenColor];
-    [self addChild:n];
-     */
+    //UIGestureRecognizer
+    [self addGestureRecognizers];
+    
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    
-    //for (UITouch *t in touches) {[self touchDownAtPoint:[t locationInNode:self]];}
 }
 
 
@@ -104,39 +95,47 @@
     
     //upperLeft
     SKShapeNode *upperLeftScreen = [SKShapeNode shapeNodeWithRectOfSize:rectSize];
+    upperLeftScreen.name = @"upperLeftScreen";
     upperLeftScreen.fillColor = [SKColor clearColor];
     upperLeftScreen.strokeColor = [SKColor grayColor];
     upperLeftScreen.position = CGPointMake(rectSize.width / 2, rectSize.height * 1.5);
     upperLeftScreen.zPosition = 10;
     upperLeftScreen.alpha = 0.3;
-    [_mainActionScreen addChild:upperLeftScreen];
+    _upperLeftScreen = upperLeftScreen;
+    [_mainActionScreen addChild:_upperLeftScreen];
     
     //upperRight
     SKShapeNode *upperRightScreen = [SKShapeNode shapeNodeWithRectOfSize:rectSize];
+    upperRightScreen.name = @"upperRightScreen";
     upperRightScreen.fillColor = [SKColor clearColor];
     upperRightScreen.strokeColor = [SKColor grayColor];
     upperRightScreen.position = CGPointMake(rectSize.width * 1.5, rectSize.height * 1.5);
     upperRightScreen.zPosition = 10;
     upperRightScreen.alpha = 0.3;
-    [_mainActionScreen addChild:upperRightScreen];
+    _upperRightScreen = upperRightScreen;
+    [_mainActionScreen addChild:_upperRightScreen];
     
     //lowerLeft
     SKShapeNode *lowerLeftScreen = [SKShapeNode shapeNodeWithRectOfSize:rectSize];
+    lowerLeftScreen.name = @"lowerLeftScreen";
     lowerLeftScreen.fillColor = [SKColor clearColor];
     lowerLeftScreen.strokeColor = [SKColor grayColor];
     lowerLeftScreen.position = CGPointMake(rectSize.width / 2, rectSize.height / 2);
     lowerLeftScreen.zPosition = 10;
     lowerLeftScreen.alpha = 0.3;
-    [_mainActionScreen addChild:lowerLeftScreen];
+    _lowerLeftScreen = lowerLeftScreen;
+    [_mainActionScreen addChild:_lowerLeftScreen];
     
     //lowerRight
     SKShapeNode *lowerRightScreen = [SKShapeNode shapeNodeWithRectOfSize:rectSize];
+    lowerRightScreen.name = @"lowerRightScreen";
     lowerRightScreen.fillColor = [SKColor clearColor];
     lowerRightScreen.strokeColor = [SKColor grayColor];
     lowerRightScreen.position = CGPointMake(rectSize.width * 1.5, rectSize.height / 2);
     lowerRightScreen.zPosition = 10;
     lowerRightScreen.alpha = 0.3;
-    [_mainActionScreen addChild:lowerRightScreen];
+    _lowerRightScreen = lowerRightScreen;
+    [_mainActionScreen addChild:_lowerRightScreen];
 }
 
 - (void)addOpponent {
@@ -147,6 +146,51 @@
     opponent.position = CGPointMake(screenWidth/2, screenHeight/2);
     opponent.zPosition = 2;
     [self addChild:opponent];
-
 }
+
+#pragma mark - UIGestureRecognizer
+- (void)addGestureRecognizers {
+    
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(handleTap:)];
+    [self.view addGestureRecognizer:tapGesture];
+    
+    UISwipeGestureRecognizer *rightSwipePunch = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(handleRightSwipePunch:)];
+    rightSwipePunch.direction = UISwipeGestureRecognizerDirectionLeft;
+    [self.view addGestureRecognizer:rightSwipePunch];
+}
+
+- (void)handleTap:(UITapGestureRecognizer *) tapGesture {
+
+    NSLog(@"Tap!");
+    
+    //Detect which node was tapped
+    if (tapGesture.state == UIGestureRecognizerStateEnded)
+    {
+        CGPoint touchLocation = [tapGesture locationInView:tapGesture.view];
+        touchLocation = [self convertPointFromView:touchLocation];
+        SKSpriteNode *touchedNode = (SKSpriteNode *)[self nodeAtPoint:touchLocation];
+        
+        NSLog(@"NODE WHICH WAS TAPPED: %@", touchedNode.name);
+    }
+
+    
+}
+
+- (void)handleRightSwipePunch:(UITapGestureRecognizer *) rightSwipePunchGesture {
+
+    NSLog(@"RightSwipePunchGesture!");
+    
+    //Detect which node was swiped
+    if (rightSwipePunchGesture.state == UIGestureRecognizerStateEnded)
+    {
+        CGPoint touchLocation = [rightSwipePunchGesture locationInView:rightSwipePunchGesture.view];
+        touchLocation = [self convertPointFromView:touchLocation];
+        SKSpriteNode *touchedNode = (SKSpriteNode *)[self nodeAtPoint:touchLocation];
+        
+        NSLog(@"NODE WHICH WAS SWIPED: %@", touchedNode.name);
+    }
+}
+
+
+
 @end
