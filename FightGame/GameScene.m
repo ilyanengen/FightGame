@@ -11,6 +11,13 @@
 @implementation GameScene {
     //SKShapeNode *_spinnyNode;
     //SKLabelNode *_label;
+    CGFloat screenHeight;
+    CGFloat screenWidth;
+    
+    SKSpriteNode *_upperHUD;
+    SKSpriteNode *_lowerHUD;
+    SKSpriteNode *_mainActionScreen;
+    
     SKSpriteNode *_opponentSprite;
 }
 
@@ -18,44 +25,23 @@
     // Setup your scene here
     self.backgroundColor = [SKColor whiteColor];
     
+    //Get screen size to use later
+    screenWidth = view.bounds.size.width;
+    screenHeight = view.bounds.size.height;
+    
     //Opponent
-    CGSize opponentSize = CGSizeMake(view.bounds.size.width/4, view.bounds.size.height/2);
+    CGSize opponentSize = CGSizeMake(screenWidth/4, screenHeight/2);
     SKSpriteNode *opponent = [SKSpriteNode spriteNodeWithColor:[SKColor greenColor] size:opponentSize];
     opponent.anchorPoint = CGPointMake(0.5,0.5);
-    opponent.position = CGPointMake(view.bounds.size.width/2, view.bounds.size.height/2);
-    opponent.zPosition = 9;
+    opponent.position = CGPointMake(screenWidth/2, screenHeight/2);
+    opponent.zPosition = 2;
     [self addChild:opponent];
     
-    //ShapeNodes
-    CGSize rectSize = CGSizeMake(view.bounds.size.width/2, view.bounds.size.height/2);
+    //HUD
+    [self addHUD];
     
-    //upperLeft
-    SKShapeNode *upperLeftScreen = [SKShapeNode shapeNodeWithRectOfSize:rectSize];
-    upperLeftScreen.strokeColor = [SKColor grayColor];
-    upperLeftScreen.position = CGPointMake(view.bounds.size.width/4, view.bounds.size.height - view.bounds.size.height/4);
-    upperLeftScreen.zPosition = 10;
-    [self addChild:upperLeftScreen];
-    
-    //upperRight
-    SKShapeNode *upperRightScreen = [SKShapeNode shapeNodeWithRectOfSize:rectSize];
-    upperRightScreen.strokeColor = [SKColor grayColor];
-    upperRightScreen.position = CGPointMake(view.bounds.size.width - view.bounds.size.width/4 , view.bounds.size.height - view.bounds.size.height/4);
-    upperRightScreen.zPosition = 10;
-    [self addChild:upperRightScreen];
-    
-    //lowerLeft
-    SKShapeNode *lowerLeftScreen = [SKShapeNode shapeNodeWithRectOfSize:rectSize];
-    lowerLeftScreen.strokeColor = [SKColor grayColor];
-    lowerLeftScreen.position = CGPointMake(view.bounds.size.width/4 , view.bounds.size.height/4);
-    lowerLeftScreen.zPosition = 10;
-    [self addChild:lowerLeftScreen];
-    
-    //lowerRight
-    SKShapeNode *lowerRightScreen = [SKShapeNode shapeNodeWithRectOfSize:rectSize];
-    lowerRightScreen.strokeColor = [SKColor grayColor];
-    lowerRightScreen.position = CGPointMake(view.bounds.size.width - view.bounds.size.width/4 , view.bounds.size.height/4);
-    lowerRightScreen.zPosition = 10;
-    [self addChild:lowerRightScreen];
+    //Action Screens
+    [self addActionScreens:view];
     
     /*
     //CGFloat w = (self.size.width + self.size.height) * 0.05;
@@ -84,4 +70,77 @@
     // Called before each frame is rendered
 }
 
+#pragma mark - Addition of main nodes to Game Scene
+- (void)addHUD {
+    
+    //HUD
+    CGSize hudSize = CGSizeMake(screenWidth, screenHeight/10);
+    
+    //Upper HUD
+    SKSpriteNode *upperHUD = [SKSpriteNode spriteNodeWithColor:[SKColor lightGrayColor] size:hudSize];
+    upperHUD.anchorPoint = CGPointMake(0, 1);
+    upperHUD.position = CGPointMake(0, screenHeight);
+    upperHUD.zPosition = 10;
+    _upperHUD = upperHUD;
+    [self addChild:_upperHUD];
+    
+    //Lower HUD
+    SKSpriteNode *lowerHUD = [SKSpriteNode spriteNodeWithColor:[SKColor lightGrayColor] size:hudSize];
+    lowerHUD.anchorPoint = CGPointMake(0, 0);
+    lowerHUD.position = CGPointMake(0, 0);
+    lowerHUD.zPosition = 10;
+    _lowerHUD = lowerHUD;
+    [self addChild:_lowerHUD];
+}
+
+- (void)addActionScreens:(SKView *)view {
+
+    CGSize mainActionScreenSize = CGSizeMake(screenWidth, screenHeight - (_upperHUD.size.height + _lowerHUD.size.height));
+    SKSpriteNode *mainActionScreen = [SKSpriteNode spriteNodeWithColor:[SKColor yellowColor] size:mainActionScreenSize];
+    mainActionScreen.anchorPoint = CGPointMake(0, 0);
+    mainActionScreen.position = CGPointMake(0, _lowerHUD.size.height);
+    mainActionScreen.zPosition = 1;
+    
+    _mainActionScreen = mainActionScreen;
+    [self addChild:_mainActionScreen];
+    
+    //ShapeNodes
+    CGSize rectSize = CGSizeMake(_mainActionScreen.size.width / 2, _mainActionScreen.size.height / 2);
+    
+    //upperLeft
+    SKShapeNode *upperLeftScreen = [SKShapeNode shapeNodeWithRectOfSize:rectSize];
+    upperLeftScreen.fillColor = [SKColor clearColor];
+    upperLeftScreen.strokeColor = [SKColor grayColor];
+    upperLeftScreen.position = CGPointMake(rectSize.width / 2, rectSize.height * 1.5);
+    upperLeftScreen.zPosition = 10;
+    upperLeftScreen.alpha = 0.3;
+    [_mainActionScreen addChild:upperLeftScreen];
+    
+    //upperRight
+    SKShapeNode *upperRightScreen = [SKShapeNode shapeNodeWithRectOfSize:rectSize];
+    upperRightScreen.fillColor = [SKColor clearColor];
+    upperRightScreen.strokeColor = [SKColor grayColor];
+    upperRightScreen.position = CGPointMake(rectSize.width * 1.5, rectSize.height * 1.5);
+    upperRightScreen.zPosition = 10;
+    upperRightScreen.alpha = 0.3;
+    [_mainActionScreen addChild:upperRightScreen];
+    
+    //lowerLeft
+    SKShapeNode *lowerLeftScreen = [SKShapeNode shapeNodeWithRectOfSize:rectSize];
+    lowerLeftScreen.fillColor = [SKColor clearColor];
+    lowerLeftScreen.strokeColor = [SKColor grayColor];
+    lowerLeftScreen.position = CGPointMake(rectSize.width / 2, rectSize.height / 2);
+    lowerLeftScreen.zPosition = 10;
+    lowerLeftScreen.alpha = 0.3;
+    [_mainActionScreen addChild:lowerLeftScreen];
+    
+    //lowerRight
+    SKShapeNode *lowerRightScreen = [SKShapeNode shapeNodeWithRectOfSize:rectSize];
+    lowerRightScreen.fillColor = [SKColor clearColor];
+    lowerRightScreen.strokeColor = [SKColor grayColor];
+    lowerRightScreen.position = CGPointMake(rectSize.width * 1.5, rectSize.height / 2);
+    lowerRightScreen.zPosition = 10;
+    lowerRightScreen.alpha = 0.3;
+    [_mainActionScreen addChild:lowerRightScreen];
+}
 @end
