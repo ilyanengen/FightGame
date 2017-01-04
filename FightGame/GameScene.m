@@ -165,7 +165,6 @@
     UISwipeGestureRecognizer *downSwipeBlock = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(handleDownSwipeBlock:)];
     downSwipeBlock.direction = UISwipeGestureRecognizerDirectionDown;
     [self.view addGestureRecognizer:downSwipeBlock];
-    
 }
 
 - (void)handleTap:(UITapGestureRecognizer *) tapGesture {
