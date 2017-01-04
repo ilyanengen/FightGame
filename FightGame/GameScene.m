@@ -29,19 +29,14 @@
     screenWidth = view.bounds.size.width;
     screenHeight = view.bounds.size.height;
     
-    //Opponent
-    CGSize opponentSize = CGSizeMake(screenWidth/4, screenHeight/2);
-    SKSpriteNode *opponent = [SKSpriteNode spriteNodeWithColor:[SKColor greenColor] size:opponentSize];
-    opponent.anchorPoint = CGPointMake(0.5,0.5);
-    opponent.position = CGPointMake(screenWidth/2, screenHeight/2);
-    opponent.zPosition = 2;
-    [self addChild:opponent];
-    
     //HUD
     [self addHUD];
     
     //Action Screens
-    [self addActionScreens:view];
+    [self addActionScreens];
+    
+    //Opponent
+    [self addOpponent];
     
     /*
     //CGFloat w = (self.size.width + self.size.height) * 0.05;
@@ -93,7 +88,7 @@
     [self addChild:_lowerHUD];
 }
 
-- (void)addActionScreens:(SKView *)view {
+- (void)addActionScreens {
 
     CGSize mainActionScreenSize = CGSizeMake(screenWidth, screenHeight - (_upperHUD.size.height + _lowerHUD.size.height));
     SKSpriteNode *mainActionScreen = [SKSpriteNode spriteNodeWithColor:[SKColor yellowColor] size:mainActionScreenSize];
@@ -142,5 +137,16 @@
     lowerRightScreen.zPosition = 10;
     lowerRightScreen.alpha = 0.3;
     [_mainActionScreen addChild:lowerRightScreen];
+}
+
+- (void)addOpponent {
+
+    CGSize opponentSize = CGSizeMake(screenWidth/4, screenHeight/2);
+    SKSpriteNode *opponent = [SKSpriteNode spriteNodeWithColor:[SKColor greenColor] size:opponentSize];
+    opponent.anchorPoint = CGPointMake(0.5,0.5);
+    opponent.position = CGPointMake(screenWidth/2, screenHeight/2);
+    opponent.zPosition = 2;
+    [self addChild:opponent];
+
 }
 @end
