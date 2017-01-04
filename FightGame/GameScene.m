@@ -70,6 +70,16 @@
     _upperHUD = upperHUD;
     [self addChild:_upperHUD];
     
+    //Stamina and HP bars
+    CGSize barSize = CGSizeMake(upperHUD.size.width / 3, upperHUD.size.height / 5);
+    
+    SKShapeNode *hpBarBackgroundNode = [SKShapeNode shapeNodeWithRectOfSize:barSize];
+    hpBarBackgroundNode.position = CGPointMake(_upperHUD.size.width / 6 + _upperHUD.size.width * 0.05, - barSize.height * 1.5);
+    hpBarBackgroundNode.zPosition = 11;
+    hpBarBackgroundNode.strokeColor = [SKColor blackColor];
+    hpBarBackgroundNode.fillColor = [SKColor greenColor];
+    [_upperHUD addChild:hpBarBackgroundNode];
+
     //Lower HUD
     SKSpriteNode *lowerHUD = [SKSpriteNode spriteNodeWithColor:[SKColor lightGrayColor] size:hudSize];
     lowerHUD.anchorPoint = CGPointMake(0, 0);
