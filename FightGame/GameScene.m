@@ -77,7 +77,6 @@
     hpBarBackgroundNode.position = CGPointMake(_upperHUD.size.width / 6 + _upperHUD.size.width * 0.05, - barSize.height * 1.5);
     hpBarBackgroundNode.zPosition = 11;
     hpBarBackgroundNode.strokeColor = [SKColor blackColor];
-    hpBarBackgroundNode.fillColor = [SKColor greenColor];
     [_upperHUD addChild:hpBarBackgroundNode];
 
     //Lower HUD
@@ -164,17 +163,21 @@
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(handleTap:)];
     [self.view addGestureRecognizer:tapGesture];
     
-    UISwipeGestureRecognizer *rightSwipePunch = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(handleRightSwipePunch:)];
-    rightSwipePunch.direction = UISwipeGestureRecognizerDirectionLeft;
-    [self.view addGestureRecognizer:rightSwipePunch];
+    UISwipeGestureRecognizer *leftToRightSwipeGesture = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(handleLeftToRightSwipe:)];
+    leftToRightSwipeGesture.direction = UISwipeGestureRecognizerDirectionRight;
+    [self.view addGestureRecognizer:leftToRightSwipeGesture];
     
-    UISwipeGestureRecognizer *leftSwipePunch = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(handleLeftSwipePunch:)];
-    leftSwipePunch.direction = UISwipeGestureRecognizerDirectionRight;
-    [self.view addGestureRecognizer:leftSwipePunch];
+    UISwipeGestureRecognizer *rightToLeftSwipeGesture = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(handleRightToLeftSwipe:)];
+    rightToLeftSwipeGesture.direction = UISwipeGestureRecognizerDirectionLeft;
+    [self.view addGestureRecognizer:rightToLeftSwipeGesture];
     
-    UISwipeGestureRecognizer *downSwipeBlock = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(handleDownSwipeBlock:)];
-    downSwipeBlock.direction = UISwipeGestureRecognizerDirectionDown;
-    [self.view addGestureRecognizer:downSwipeBlock];
+    UISwipeGestureRecognizer *upSwipeGesture = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(handleUpSwipe:)];
+    upSwipeGesture.direction = UISwipeGestureRecognizerDirectionUp;
+    [self.view addGestureRecognizer:upSwipeGesture];
+    
+    UISwipeGestureRecognizer *downSwipeGesture = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(handleDownSwipe:)];
+    downSwipeGesture.direction = UISwipeGestureRecognizerDirectionDown;
+    [self.view addGestureRecognizer:downSwipeGesture];
 }
 
 - (void)handleTap:(UITapGestureRecognizer *) tapGesture {
@@ -193,29 +196,14 @@
     }
 }
 
-- (void)handleRightSwipePunch:(UITapGestureRecognizer *) rightSwipePunchGesture {
+- (void)handleLeftToRightSwipe:(UITapGestureRecognizer *) leftToRightSwipeGesture {
 
-    NSLog(@"RightSwipePunchGesture!");
+    NSLog(@"leftToRightSwipeGesture!");
     
     //Detect which node was swiped
-    if (rightSwipePunchGesture.state == UIGestureRecognizerStateEnded)
+    if (leftToRightSwipeGesture.state == UIGestureRecognizerStateEnded)
     {
-        CGPoint touchLocation = [rightSwipePunchGesture locationInView:rightSwipePunchGesture.view];//находим позицию тача на вьюхе, к которой прикреплен GestureRecognizer
-        touchLocation = [self convertPointFromView:touchLocation]; //конвертируем позицию тача из координат вьюхи в координаты GameScene
-        SKNode *touchedNode = (SKNode *)[self nodeAtPoint:touchLocation]; //Находим нод, который соответствует позиции на GameScene
-        
-        NSLog(@"NODE WHICH WAS SWIPED FROM RIGHT TO LEFT: %@", touchedNode.name);
-    }
-}
-
-- (void)handleLeftSwipePunch:(UITapGestureRecognizer *) leftSwipePunchGesture {
-    
-    NSLog(@"leftSwipePunchGesture!");
-    
-    //Detect which node was swiped
-    if (leftSwipePunchGesture.state == UIGestureRecognizerStateEnded)
-    {
-        CGPoint touchLocation = [leftSwipePunchGesture locationInView:leftSwipePunchGesture.view];//находим позицию тача на вьюхе, к которой прикреплен GestureRecognizer
+        CGPoint touchLocation = [leftToRightSwipeGesture locationInView:leftToRightSwipeGesture.view];//находим позицию тача на вьюхе, к которой прикреплен GestureRecognizer
         touchLocation = [self convertPointFromView:touchLocation]; //конвертируем позицию тача из координат вьюхи в координаты GameScene
         SKNode *touchedNode = (SKNode *)[self nodeAtPoint:touchLocation]; //Находим нод, который соответствует позиции на GameScene
         
@@ -223,13 +211,42 @@
     }
 }
 
-- (void)handleDownSwipeBlock: (UISwipeGestureRecognizer *) downSwipeBlockGesture {
-
-    NSLog(@"DownSwipeBlockGesture!");
+- (void)handleRightToLeftSwipe:(UITapGestureRecognizer *) rightToLeftSwipeGesture {
     
-    if (downSwipeBlockGesture.state == UIGestureRecognizerStateEnded)
+    NSLog(@"rightToLeftSwipeGesture!");
+    
+    //Detect which node was swiped
+    if (rightToLeftSwipeGesture.state == UIGestureRecognizerStateEnded)
     {
-        CGPoint touchLocation = [downSwipeBlockGesture locationInView:downSwipeBlockGesture.view];//находим позицию тача на вьюхе, к которой прикреплен GestureRecognizer
+        CGPoint touchLocation = [rightToLeftSwipeGesture locationInView:rightToLeftSwipeGesture.view];//находим позицию тача на вьюхе, к которой прикреплен GestureRecognizer
+        touchLocation = [self convertPointFromView:touchLocation]; //конвертируем позицию тача из координат вьюхи в координаты GameScene
+        SKNode *touchedNode = (SKNode *)[self nodeAtPoint:touchLocation]; //Находим нод, который соответствует позиции на GameScene
+        
+        NSLog(@"NODE WHICH WAS SWIPED FROM RIGHT TO LEFT: %@", touchedNode.name);
+    }
+}
+
+- (void)handleUpSwipe: (UISwipeGestureRecognizer *) upSwipeGesture {
+
+    NSLog(@"UpSwipeGesture!");
+    
+    if (upSwipeGesture.state == UIGestureRecognizerStateEnded)
+    {
+        CGPoint touchLocation = [upSwipeGesture locationInView:upSwipeGesture.view];//находим позицию тача на вьюхе, к которой прикреплен GestureRecognizer
+        touchLocation = [self convertPointFromView:touchLocation];//конвертируем позицию тача из координат вьюхи в координаты GameScene
+        SKNode *touchedNode = (SKNode *)[self nodeAtPoint:touchLocation]; //Находим нод, который соответствует позиции на GameScene
+        
+        NSLog(@"NODE WHICH WAS SWIPED UP: %@", touchedNode.name);
+    }
+}
+
+- (void)handleDownSwipe: (UISwipeGestureRecognizer *) downSwipeGesture {
+
+    NSLog(@"downSwipeGesture!");
+    
+    if (downSwipeGesture.state == UIGestureRecognizerStateEnded)
+    {
+        CGPoint touchLocation = [downSwipeGesture locationInView:downSwipeGesture.view];//находим позицию тача на вьюхе, к которой прикреплен GestureRecognizer
         touchLocation = [self convertPointFromView:touchLocation];//конвертируем позицию тача из координат вьюхи в координаты GameScene
         SKNode *touchedNode = (SKNode *)[self nodeAtPoint:touchLocation]; //Находим нод, который соответствует позиции на GameScene
         
