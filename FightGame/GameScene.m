@@ -23,7 +23,8 @@
     SKShapeNode *_lowerLeftScreen;
     SKShapeNode *_lowerRightScreen;
     
-    SKSpriteNode *_opponentSprite;
+    SKSpriteNode *_player;
+    SKSpriteNode *_opponent;
 }
 
 - (void)didMoveToView:(SKView *)view {
@@ -42,6 +43,9 @@
     
     //UIGestureRecognizer
     [self addGestureRecognizers];
+    
+    //Add player
+    [self addPlayer];
     
     //Opponent
     [self addOpponent];
@@ -172,6 +176,72 @@
     [_mainActionScreen addChild:_lowerRightScreen];
 }
 
+- (void)addPlayer {
+
+    CGSize playerSize = CGSizeMake(screenWidth/4, screenHeight/2);
+    Fighter *player = [Fighter spriteNodeWithColor:[SKColor greenColor] size:playerSize];
+    player.anchorPoint = CGPointMake(0.5,0.5);
+    player.position = CGPointMake(screenWidth/2, screenHeight/2);
+    player.zPosition = 2;
+    player.name = @"playerNode";
+    
+    player.fighterName = @"playerName";
+    player.hp = 10;
+    player.stamina = 100;
+    
+    //DAMAGE
+    
+    //leftUp damage
+    player.leftStraightPunchDamage = 1;
+    player.leftSwingPunchDamage = 3;
+    player.leftUppercutPunchDamage = 4;
+    
+    //rightUp damage
+    player.rightStraightPunchDamage = 1;
+    player.rightSwingPunchDamage = 3;
+    player.rightUppercutPunchDamage = 4;
+    
+    //leftDown damage
+    player.leftStraightKickDamage = 2;
+    player.leftSwingKickDamage = 3;
+    player.leftHighKickDamage = 5;
+    
+    //rightDown damage
+    player.rightStraightKickDamage = 2;
+    player.rightSwingKickDamage = 3;
+    player.rightHighKickDamage = 5;
+    
+    //STAMINA --- NEED CHECK!
+    
+    //leftUp stamina
+    player.leftStraightPunchStamina = 1;
+    player.leftSwingPunchStamina = 3;
+    player.leftUppercutPunchStamina = 4;
+    player.leftUpBlockStamina = 1;
+    
+    //rightUp stamina
+    player.rightStraightPunchStamina = 1;
+    player.rightSwingPunchStamina = 3;
+    player.rightUppercutPunchStamina = 4;
+    player.rightUpBlockStamina = 1;
+    
+    //leftDown stamina
+    player.leftStraightKickStamina = 2;
+    player.leftSwingKickStamina = 3;
+    player.leftHighKickStamina = 5;
+    player.leftDownBlockStamina = 1;
+    
+    //rightDown stamina
+    player.rightStraightKickStamina = 2;
+    player.rightSwingKickStamina = 3;
+    player.rightHighKickStamina = 5;
+    player.rightDownBlockStamina = 1;
+
+    _player = player;
+    
+    //[self addChild:player];
+}
+
 - (void)addOpponent {
 
     CGSize opponentSize = CGSizeMake(screenWidth/4, screenHeight/2);
@@ -181,7 +251,60 @@
     opponent.zPosition = 2;
     opponent.fighterName = @"opponentName";
     opponent.name = @"opponentNode";
-    [self addChild:opponent];
+    
+    opponent.hp = 10;
+    opponent.stamina = 100;
+    
+    //DAMAGE
+    
+    //leftUp damage
+    opponent.leftStraightPunchDamage = 1;
+    opponent.leftSwingPunchDamage = 3;
+    opponent.leftUppercutPunchDamage = 4;
+    
+    //rightUp damage
+    opponent.rightStraightPunchDamage = 1;
+    opponent.rightSwingPunchDamage = 3;
+    opponent.rightUppercutPunchDamage = 4;
+    
+    //leftDown damage
+    opponent.leftStraightKickDamage = 2;
+    opponent.leftSwingKickDamage = 3;
+    opponent.leftHighKickDamage = 5;
+    
+    //rightDown damage
+    opponent.rightStraightKickDamage = 2;
+    opponent.rightSwingKickDamage = 3;
+    opponent.rightHighKickDamage = 5;
+    
+    //STAMINA
+    
+    //leftUp stamina
+    opponent.leftStraightPunchStamina = 1;
+    opponent.leftSwingPunchStamina = 3;
+    opponent.leftUppercutPunchStamina = 4;
+    opponent.leftUpBlockStamina = 1;
+    
+    //rightUp stamina
+    opponent.rightStraightPunchStamina = 1;
+    opponent.rightSwingPunchStamina = 3;
+    opponent.rightUppercutPunchStamina = 4;
+    opponent.rightUpBlockStamina = 1;
+    
+    //leftDown stamina
+    opponent.leftStraightKickStamina = 2;
+    opponent.leftSwingKickStamina = 3;
+    opponent.leftHighKickStamina = 5;
+    opponent.leftDownBlockStamina = 1;
+    
+    //rightDown stamina
+    opponent.rightStraightKickStamina = 2;
+    opponent.rightSwingKickStamina = 3;
+    opponent.rightHighKickStamina = 5;
+    opponent.rightDownBlockStamina = 1;
+
+    _opponent = opponent;
+    [self addChild:_opponent];
 }
 
 #pragma mark - UIGestureRecognizer

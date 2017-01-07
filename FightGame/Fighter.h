@@ -35,4 +35,30 @@
 @property (assign, nonatomic) int rightSwingKickDamage;
 @property (assign, nonatomic) int rightHighKickDamage;
 
+//////////////////////////////////////////////////////////////////
+
+//leftUp stamina
+@property (assign, nonatomic) int leftStraightPunchStamina;
+@property (assign, nonatomic) int leftSwingPunchStamina;
+@property (assign, nonatomic) int leftUppercutPunchStamina;
+@property (assign, nonatomic) int leftUpBlockStamina;
+
+//rightUp stamina
+@property (assign, nonatomic) int rightStraightPunchStamina;
+@property (assign, nonatomic) int rightSwingPunchStamina;
+@property (assign, nonatomic) int rightUppercutPunchStamina;
+@property (assign, nonatomic) int rightUpBlockStamina;
+
+//leftDown stamina
+@property (assign, nonatomic) int leftStraightKickStamina;
+@property (assign, nonatomic) int leftSwingKickStamina;
+@property (assign, nonatomic) int leftHighKickStamina;
+@property (assign, nonatomic) int leftDownBlockStamina;
+
+//rightDown stamina
+@property (assign, nonatomic) int rightStraightKickStamina;
+@property (assign, nonatomic) int rightSwingKickStamina;
+@property (assign, nonatomic) int rightHighKickStamina;
+@property (assign, nonatomic) int rightDownBlockStamina;
+
 @end
