@@ -70,15 +70,32 @@
     _upperHUD = upperHUD;
     [self addChild:_upperHUD];
     
-    //Stamina and HP bars
+    //HP bars
     CGSize barSize = CGSizeMake(upperHUD.size.width / 3, upperHUD.size.height / 5);
     
-    SKShapeNode *hpBarBackgroundNode = [SKShapeNode shapeNodeWithRectOfSize:barSize];
-    hpBarBackgroundNode.position = CGPointMake(_upperHUD.size.width / 6 + _upperHUD.size.width * 0.05, - barSize.height * 1.5);
+    SKSpriteNode *hpBarBackgroundNode = [SKSpriteNode spriteNodeWithColor:[SKColor blackColor] size:barSize];
+    hpBarBackgroundNode.anchorPoint = CGPointMake(0, 0);
     hpBarBackgroundNode.zPosition = 11;
-    hpBarBackgroundNode.strokeColor = [SKColor blackColor];
+    hpBarBackgroundNode.position = CGPointMake(_upperHUD.size.width * 0.05, - barSize.height * 2);
     [_upperHUD addChild:hpBarBackgroundNode];
-
+    
+    SKSpriteNode *hpBarNode = [SKSpriteNode spriteNodeWithColor:[SKColor greenColor] size:barSize];
+    hpBarNode.anchorPoint = CGPointMake(0, 0); // May be need to change to (0, 0.5) to perform better reductuion of hp;
+    hpBarNode.zPosition = 12;
+    [hpBarBackgroundNode addChild:hpBarNode];
+    
+    //Stamina Bars
+    SKSpriteNode *staminaBarBackgroundNode = [SKSpriteNode spriteNodeWithColor:[SKColor blackColor] size:barSize];
+    staminaBarBackgroundNode.anchorPoint = CGPointMake(0, 0);
+    staminaBarBackgroundNode.zPosition = 11;
+    staminaBarBackgroundNode.position = CGPointMake(_upperHUD.size.width * 0.05, - barSize.height * 4);
+    [_upperHUD addChild:staminaBarBackgroundNode];
+    
+    SKSpriteNode *staminaBarNode = [SKSpriteNode spriteNodeWithColor:[SKColor blueColor] size:barSize];
+    staminaBarNode.anchorPoint = CGPointMake(0, 0); // May be need to change to (0, 0.5) to perform better reductuion of hp;
+    staminaBarNode.zPosition = 12;
+    [staminaBarBackgroundNode addChild:staminaBarNode];
+    
     //Lower HUD
     SKSpriteNode *lowerHUD = [SKSpriteNode spriteNodeWithColor:[SKColor lightGrayColor] size:hudSize];
     lowerHUD.anchorPoint = CGPointMake(0, 0);
@@ -86,6 +103,14 @@
     lowerHUD.zPosition = 10;
     _lowerHUD = lowerHUD;
     [self addChild:_lowerHUD];
+    
+    //Timer bar
+    CGSize timerBarSize = CGSizeMake(upperHUD.size.width / 3 * 2, upperHUD.size.height / 3);
+    SKSpriteNode *timerBarNode = [SKSpriteNode spriteNodeWithColor:[SKColor redColor] size:timerBarSize];
+    timerBarNode.anchorPoint = CGPointMake(0.5, 0.5); // May be need to change to (0, 0.5) to perform better reductuion of time;
+    timerBarNode.position = CGPointMake(_lowerHUD.size.width / 2, _lowerHUD.size.height / 2);
+    timerBarNode.zPosition = 11;
+    [_lowerHUD addChild:timerBarNode];
 }
 
 - (void)addActionScreens {
