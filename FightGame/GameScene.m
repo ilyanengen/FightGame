@@ -206,8 +206,6 @@
 }
 
 - (void)handleTap:(UITapGestureRecognizer *) tapGesture {
-
-    NSLog(@"Tap!");
     
     //Detect which node was tapped
     if (tapGesture.state == UIGestureRecognizerStateEnded)
@@ -217,13 +215,21 @@
         touchLocation = [self convertPointFromView:touchLocation];//конвертируем позицию тача из координат вьюхи в координаты GameScene
         SKNode *touchedNode = (SKNode *)[self nodeAtPoint:touchLocation];//Находим нод, который соответствует позиции на GameScene
         
-        NSLog(@"NODE WHICH WAS TAPPED: %@", touchedNode.name);
+        if([touchedNode.name isEqualToString:@"upperLeftScreen"]) {
+            [self leftStraightPunch];
+        } else if([touchedNode.name isEqualToString:@"upperRightScreen"]) {
+            [self rightStraightPunch];
+        } else if([touchedNode.name isEqualToString:@"lowerLeftScreen"]) {
+            [self leftStraightKick];
+        } else if ([touchedNode.name isEqualToString:@"lowerRightScreen"]) {
+            [self rightStraightKick];
+        } else {
+            NSLog(@"Incorrect node was tapped - no action is executed");
+        }
     }
 }
 
 - (void)handleLeftToRightSwipe:(UITapGestureRecognizer *) leftToRightSwipeGesture {
-
-    NSLog(@"leftToRightSwipeGesture!");
     
     //Detect which node was swiped
     if (leftToRightSwipeGesture.state == UIGestureRecognizerStateEnded)
@@ -232,13 +238,17 @@
         touchLocation = [self convertPointFromView:touchLocation]; //конвертируем позицию тача из координат вьюхи в координаты GameScene
         SKNode *touchedNode = (SKNode *)[self nodeAtPoint:touchLocation]; //Находим нод, который соответствует позиции на GameScene
         
-        NSLog(@"NODE WHICH WAS SWIPED FROM LEFT TO RIGHT: %@", touchedNode.name);
+        if([touchedNode.name isEqualToString:@"upperLeftScreen"]) {
+            [self leftSwingPunch];
+        } else if([touchedNode.name isEqualToString:@"lowerLeftScreen"]) {
+            [self leftSwingKick];
+        } else {
+            NSLog(@"Incorrect node was tapped - no action is executed");
+        }
     }
 }
 
 - (void)handleRightToLeftSwipe:(UITapGestureRecognizer *) rightToLeftSwipeGesture {
-    
-    NSLog(@"rightToLeftSwipeGesture!");
     
     //Detect which node was swiped
     if (rightToLeftSwipeGesture.state == UIGestureRecognizerStateEnded)
@@ -247,27 +257,39 @@
         touchLocation = [self convertPointFromView:touchLocation]; //конвертируем позицию тача из координат вьюхи в координаты GameScene
         SKNode *touchedNode = (SKNode *)[self nodeAtPoint:touchLocation]; //Находим нод, который соответствует позиции на GameScene
         
-        NSLog(@"NODE WHICH WAS SWIPED FROM RIGHT TO LEFT: %@", touchedNode.name);
+        if([touchedNode.name isEqualToString:@"upperRightScreen"]) {
+            [self rightSwingPunch];
+        } else if ([touchedNode.name isEqualToString:@"lowerRightScreen"]) {
+            [self rightSwingKick];
+        } else {
+            NSLog(@"Incorrect node was tapped - no action is executed");
+        }
     }
 }
 
 - (void)handleUpSwipe: (UISwipeGestureRecognizer *) upSwipeGesture {
 
-    NSLog(@"UpSwipeGesture!");
-    
     if (upSwipeGesture.state == UIGestureRecognizerStateEnded)
     {
         CGPoint touchLocation = [upSwipeGesture locationInView:upSwipeGesture.view];//находим позицию тача на вьюхе, к которой прикреплен GestureRecognizer
         touchLocation = [self convertPointFromView:touchLocation];//конвертируем позицию тача из координат вьюхи в координаты GameScene
         SKNode *touchedNode = (SKNode *)[self nodeAtPoint:touchLocation]; //Находим нод, который соответствует позиции на GameScene
         
-        NSLog(@"NODE WHICH WAS SWIPED UP: %@", touchedNode.name);
+        if([touchedNode.name isEqualToString:@"upperLeftScreen"]) {
+            [self leftUppercutPunch];
+        } else if([touchedNode.name isEqualToString:@"upperRightScreen"]) {
+            [self rightUppercutPunch];
+        } else if([touchedNode.name isEqualToString:@"lowerLeftScreen"]) {
+            [self leftHighKick];
+        } else if ([touchedNode.name isEqualToString:@"lowerRightScreen"]) {
+            [self rightHighKick];
+        } else {
+            NSLog(@"Incorrect node was tapped - no action is executed");
+        }
     }
 }
 
 - (void)handleDownSwipe: (UISwipeGestureRecognizer *) downSwipeGesture {
-
-    NSLog(@"downSwipeGesture!");
     
     if (downSwipeGesture.state == UIGestureRecognizerStateEnded)
     {
@@ -275,8 +297,77 @@
         touchLocation = [self convertPointFromView:touchLocation];//конвертируем позицию тача из координат вьюхи в координаты GameScene
         SKNode *touchedNode = (SKNode *)[self nodeAtPoint:touchLocation]; //Находим нод, который соответствует позиции на GameScene
         
-        NSLog(@"NODE WHICH WAS SWIPED DOWN: %@", touchedNode.name);
+        if([touchedNode.name isEqualToString:@"upperLeftScreen"]) {
+            [self leftUpBlock];
+        } else if([touchedNode.name isEqualToString:@"upperRightScreen"]) {
+            [self rightUpBlock];
+        } else if([touchedNode.name isEqualToString:@"lowerLeftScreen"]) {
+            [self leftDownBlock];
+        } else if ([touchedNode.name isEqualToString:@"lowerRightScreen"]) {
+            [self rightDownBlock];
+        } else {
+            NSLog(@"Incorrect node was tapped - no action is executed");
+        }
     }
 }
+
+#pragma mark --- Player's Punches and Kicks
+//leftUp
+- (void)leftStraightPunch {
+    NSLog(@"leftStraightPunch");
+}
+- (void)leftSwingPunch {
+    NSLog(@"leftSwingPunch");
+}
+- (void)leftUppercutPunch {
+    NSLog(@"leftUppercutPunch");
+}
+- (void)leftUpBlock {
+    NSLog(@"leftUpBlock");
+}
+
+//rightUp
+- (void)rightStraightPunch {
+    NSLog(@"rightStraightPunch");
+}
+- (void)rightSwingPunch {
+    NSLog(@"rightSwingPunch");
+}
+- (void)rightUppercutPunch {
+    NSLog(@"rightUppercutPunch");
+}
+- (void)rightUpBlock {
+    NSLog(@"rightUpBlock");
+}
+
+//leftDown
+- (void)leftStraightKick {
+    NSLog(@"leftStraightKick");
+}
+- (void)leftSwingKick {
+    NSLog(@"leftSwingKick");
+}
+- (void)leftHighKick {
+    NSLog(@"leftHighKick");
+}
+- (void)leftDownBlock {
+    NSLog(@"leftDownBlock");
+}
+
+//rightDown
+- (void)rightStraightKick {
+    NSLog(@"rightStraightKick");
+}
+- (void)rightSwingKick {
+    NSLog(@"rightSwingKick");
+}
+- (void)rightHighKick {
+    NSLog(@"rightHighKick");
+}
+- (void)rightDownBlock {
+    NSLog(@"rightDownBlock");
+}
+
+
 
 @end
