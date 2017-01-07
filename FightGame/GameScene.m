@@ -49,7 +49,6 @@
     
     //Opponent
     [self addOpponent];
-    
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -74,6 +73,7 @@
     _upperHUD = upperHUD;
     [self addChild:_upperHUD];
     
+    //PLAYER's HP AND STAMINA BARS
     //HP bars
     CGSize barSize = CGSizeMake(upperHUD.size.width / 3, upperHUD.size.height / 5);
     
@@ -99,6 +99,32 @@
     staminaBarNode.anchorPoint = CGPointMake(0, 0); // May be need to change to (0, 0.5) to perform better reductuion of hp;
     staminaBarNode.zPosition = 12;
     [staminaBarBackgroundNode addChild:staminaBarNode];
+    
+    //OPPONENT's HP AND STAMINA BARS
+    //HP bars
+    
+    SKSpriteNode *opponentHpBarBackgroundNode = [SKSpriteNode spriteNodeWithColor:[SKColor blackColor] size:barSize];
+    opponentHpBarBackgroundNode.anchorPoint = CGPointMake(0, 0);
+    opponentHpBarBackgroundNode.zPosition = 11;
+    opponentHpBarBackgroundNode.position = CGPointMake(_upperHUD.size.width - (_upperHUD.size.width * 0.05 + barSize.width), - barSize.height * 2);
+    [_upperHUD addChild:opponentHpBarBackgroundNode];
+    
+    SKSpriteNode *opponentHpBarNode = [SKSpriteNode spriteNodeWithColor:[SKColor greenColor] size:barSize];
+    opponentHpBarNode.anchorPoint = CGPointMake(0, 0); // May be need to change to (0, 0.5) to perform better reductuion of hp;
+    opponentHpBarNode.zPosition = 12;
+    [opponentHpBarBackgroundNode addChild:opponentHpBarNode];
+    
+    //Stamina Bars
+    SKSpriteNode *opponentStaminaBarBackgroundNode = [SKSpriteNode spriteNodeWithColor:[SKColor blackColor] size:barSize];
+    opponentStaminaBarBackgroundNode.anchorPoint = CGPointMake(0, 0);
+    opponentStaminaBarBackgroundNode.zPosition = 11;
+    opponentStaminaBarBackgroundNode.position = CGPointMake(_upperHUD.size.width - (_upperHUD.size.width * 0.05 + barSize.width), - barSize.height * 4);
+    [_upperHUD addChild:opponentStaminaBarBackgroundNode];
+    
+    SKSpriteNode *opponentStaminaBarNode = [SKSpriteNode spriteNodeWithColor:[SKColor blueColor] size:barSize];
+    opponentStaminaBarNode.anchorPoint = CGPointMake(0, 0); // May be need to change to (0, 0.5) to perform better reductuion of hp;
+    opponentStaminaBarNode.zPosition = 12;
+    [opponentStaminaBarBackgroundNode addChild:opponentStaminaBarNode];
     
     //Lower HUD
     SKSpriteNode *lowerHUD = [SKSpriteNode spriteNodeWithColor:[SKColor lightGrayColor] size:hudSize];
@@ -211,7 +237,7 @@
     player.rightSwingKickDamage = 3;
     player.rightHighKickDamage = 5;
     
-    //STAMINA --- NEED CHECK!
+    //STAMINA
     
     //leftUp stamina
     player.leftStraightPunchStamina = 1;
@@ -239,7 +265,7 @@
 
     _player = player;
     
-    //[self addChild:player];
+    //[self addChild:_player];
 }
 
 - (void)addOpponent {
