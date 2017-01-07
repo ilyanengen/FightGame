@@ -23,8 +23,8 @@
     SKShapeNode *_lowerLeftScreen;
     SKShapeNode *_lowerRightScreen;
     
-    SKSpriteNode *_player;
-    SKSpriteNode *_opponent;
+    Fighter *_player;
+    Fighter *_opponent;
     
     //Gameplay variables
 }
@@ -467,58 +467,102 @@
 #pragma mark --- Player's Punches and Kicks
 //leftUp
 - (void)leftStraightPunch {
+    
     NSLog(@"leftStraightPunch");
+    [self checkPlayerFirstAndSecondActions:@"leftStraightPunch"];
+    
 }
 - (void)leftSwingPunch {
+    
     NSLog(@"leftSwingPunch");
+    [self checkPlayerFirstAndSecondActions:@"leftSwingPunch"];
 }
 - (void)leftUppercutPunch {
+    
     NSLog(@"leftUppercutPunch");
+    [self checkPlayerFirstAndSecondActions:@"leftUppercutPunch"];
 }
 - (void)leftUpBlock {
+    
     NSLog(@"leftUpBlock");
+    [self checkPlayerFirstAndSecondActions:@"leftUpBlock"];
 }
 
 //rightUp
 - (void)rightStraightPunch {
+    
     NSLog(@"rightStraightPunch");
+    [self checkPlayerFirstAndSecondActions:@"rightStraightPunch"];
 }
 - (void)rightSwingPunch {
+    
     NSLog(@"rightSwingPunch");
+    [self checkPlayerFirstAndSecondActions:@"rightSwingPunch"];
 }
 - (void)rightUppercutPunch {
+    
     NSLog(@"rightUppercutPunch");
+    [self checkPlayerFirstAndSecondActions:@"rightUppercutPunch"];
 }
 - (void)rightUpBlock {
+    
     NSLog(@"rightUpBlock");
+    [self checkPlayerFirstAndSecondActions:@"rightUpBlock"];
 }
 
 //leftDown
 - (void)leftStraightKick {
+    
     NSLog(@"leftStraightKick");
+    [self checkPlayerFirstAndSecondActions:@"leftStraightKick"];
 }
 - (void)leftSwingKick {
+    
     NSLog(@"leftSwingKick");
+    [self checkPlayerFirstAndSecondActions:@"leftSwingKick"];
 }
 - (void)leftHighKick {
+    
     NSLog(@"leftHighKick");
+    [self checkPlayerFirstAndSecondActions:@"leftHighKick"];
 }
 - (void)leftDownBlock {
+    
     NSLog(@"leftDownBlock");
+    [self checkPlayerFirstAndSecondActions:@"leftDownBlock"];
 }
 
 //rightDown
 - (void)rightStraightKick {
+    
     NSLog(@"rightStraightKick");
+    [self checkPlayerFirstAndSecondActions:@"rightStraightKick"];
 }
 - (void)rightSwingKick {
+    
     NSLog(@"rightSwingKick");
+    [self checkPlayerFirstAndSecondActions:@"rightSwingKick"];
 }
 - (void)rightHighKick {
+    
     NSLog(@"rightHighKick");
+    [self checkPlayerFirstAndSecondActions:@"rightHighKick"];
 }
 - (void)rightDownBlock {
+    
     NSLog(@"rightDownBlock");
+    [self checkPlayerFirstAndSecondActions:@"rightDownBlock"];
+}
+
+- (void)checkPlayerFirstAndSecondActions: (NSString *)actionString {
+    
+    if (!_player.firstAction) {
+        _player.firstAction = actionString;
+        NSLog(@"player's first action is : %@", _player.firstAction);
+    } else if (!_player.secondAction) {
+        _player.secondAction = actionString;
+        NSLog(@"player's second action is : %@", _player.secondAction);
+    }
 }
 
 
