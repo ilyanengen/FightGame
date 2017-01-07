@@ -25,6 +25,8 @@
     
     SKSpriteNode *_player;
     SKSpriteNode *_opponent;
+    
+    //Gameplay variables
 }
 
 - (void)didMoveToView:(SKView *)view {

@@ -12,6 +12,17 @@
 
 @property (strong, nonatomic) NSString *fighterName;
 
+@property (strong, nonatomic) NSString *firstAction;
+@property (strong, nonatomic) NSString *secondAction;
+
+@property (assign, nonatomic) BOOL firstTurnIsOver;
+@property (assign, nonatomic) BOOL secondTurnIsOver;
+
+@property (assign, nonatomic) BOOL firstTimeIsOver;
+@property (assign, nonatomic) BOOL secondTimeIsOver;
+
+@property (assign, nonatomic) BOOL readyForGesture;
+
 @property (assign, nonatomic) int hp;
 @property (assign, nonatomic) int stamina;
 
