@@ -7,10 +7,10 @@
 //
 
 #import "GameScene.h"
+#import "Fighter.h"
 
 @implementation GameScene {
-    //SKShapeNode *_spinnyNode;
-    //SKLabelNode *_label;
+    
     CGFloat screenHeight;
     CGFloat screenWidth;
     
@@ -40,11 +40,11 @@
     //Action Screens
     [self addActionScreens];
     
-    //Opponent
-    [self addOpponent];
-    
     //UIGestureRecognizer
     [self addGestureRecognizers];
+    
+    //Opponent
+    [self addOpponent];
     
 }
 
@@ -175,10 +175,12 @@
 - (void)addOpponent {
 
     CGSize opponentSize = CGSizeMake(screenWidth/4, screenHeight/2);
-    SKSpriteNode *opponent = [SKSpriteNode spriteNodeWithColor:[SKColor greenColor] size:opponentSize];
+    Fighter *opponent = [Fighter spriteNodeWithColor:[SKColor greenColor] size:opponentSize];
     opponent.anchorPoint = CGPointMake(0.5,0.5);
     opponent.position = CGPointMake(screenWidth/2, screenHeight/2);
     opponent.zPosition = 2;
+    opponent.fighterName = @"opponentName";
+    opponent.name = @"opponentNode";
     [self addChild:opponent];
 }
 

@@ -16,6 +16,7 @@
 		098ABBC11E1C362E00DA9417 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 098ABBBF1E1C362E00DA9417 /* Main.storyboard */; };
 		098ABBC31E1C362E00DA9417 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 098ABBC21E1C362E00DA9417 /* Assets.xcassets */; };
 		098ABBC61E1C362E00DA9417 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 098ABBC41E1C362E00DA9417 /* LaunchScreen.storyboard */; };
+		09E50F591E2111F6003AE1BB /* Fighter.m in Sources */ = {isa = PBXBuildFile; fileRef = 09E50F581E2111F6003AE1BB /* Fighter.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +34,8 @@
 		098ABBC21E1C362E00DA9417 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		098ABBC51E1C362E00DA9417 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		098ABBC71E1C362E00DA9417 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		09E50F571E2111F6003AE1BB /* Fighter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Fighter.h; sourceTree = "<group>"; };
+		09E50F581E2111F6003AE1BB /* Fighter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Fighter.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +74,8 @@
 				098ABBBA1E1C362E00DA9417 /* GameScene.m */,
 				098ABBBC1E1C362E00DA9417 /* GameViewController.h */,
 				098ABBBD1E1C362E00DA9417 /* GameViewController.m */,
+				09E50F571E2111F6003AE1BB /* Fighter.h */,
+				09E50F581E2111F6003AE1BB /* Fighter.m */,
 				098ABBC21E1C362E00DA9417 /* Assets.xcassets */,
 				098ABBC41E1C362E00DA9417 /* LaunchScreen.storyboard */,
 				098ABBC71E1C362E00DA9417 /* Info.plist */,
@@ -168,6 +173,7 @@
 				098ABBB41E1C362E00DA9417 /* AppDelegate.m in Sources */,
 				098ABBBB1E1C362E00DA9417 /* GameScene.m in Sources */,
 				098ABBB11E1C362E00DA9417 /* main.m in Sources */,
+				09E50F591E2111F6003AE1BB /* Fighter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -326,6 +332,7 @@
 				098ABBCC1E1C362E00DA9417 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
