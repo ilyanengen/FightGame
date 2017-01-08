@@ -17,6 +17,14 @@
     SKSpriteNode *_upperHUD;
     SKSpriteNode *_lowerHUD;
     
+    CGSize _defaultBarSize;
+    
+    SKSpriteNode *_playerHpBar;
+    SKSpriteNode *_opponentHpBar;
+    
+    SKSpriteNode *_playerStaminaBar;
+    SKSpriteNode *_opponentStaminaBar;
+    
     SKSpriteNode *_mainActionScreen;
     SKShapeNode *_upperLeftScreen;
     SKShapeNode *_upperRightScreen;
@@ -78,6 +86,7 @@
     //PLAYER's HP AND STAMINA BARS
     //HP bars
     CGSize barSize = CGSizeMake(upperHUD.size.width / 3, upperHUD.size.height / 5);
+    _defaultBarSize = barSize;
     
     SKSpriteNode *hpBarBackgroundNode = [SKSpriteNode spriteNodeWithColor:[SKColor blackColor] size:barSize];
     hpBarBackgroundNode.anchorPoint = CGPointMake(0, 0);
@@ -88,7 +97,8 @@
     SKSpriteNode *hpBarNode = [SKSpriteNode spriteNodeWithColor:[SKColor greenColor] size:barSize];
     hpBarNode.anchorPoint = CGPointMake(0, 0); // May be need to change to (0, 0.5) to perform better reductuion of hp;
     hpBarNode.zPosition = 12;
-    [hpBarBackgroundNode addChild:hpBarNode];
+    _playerHpBar = hpBarNode;
+    [hpBarBackgroundNode addChild:_playerHpBar];
     
     //Stamina Bars
     SKSpriteNode *staminaBarBackgroundNode = [SKSpriteNode spriteNodeWithColor:[SKColor blackColor] size:barSize];
@@ -100,7 +110,8 @@
     SKSpriteNode *staminaBarNode = [SKSpriteNode spriteNodeWithColor:[SKColor blueColor] size:barSize];
     staminaBarNode.anchorPoint = CGPointMake(0, 0); // May be need to change to (0, 0.5) to perform better reductuion of hp;
     staminaBarNode.zPosition = 12;
-    [staminaBarBackgroundNode addChild:staminaBarNode];
+    _playerStaminaBar = staminaBarNode;
+    [staminaBarBackgroundNode addChild:_playerStaminaBar];
     
     //OPPONENT's HP AND STAMINA BARS
     //HP bars
@@ -114,7 +125,8 @@
     SKSpriteNode *opponentHpBarNode = [SKSpriteNode spriteNodeWithColor:[SKColor greenColor] size:barSize];
     opponentHpBarNode.anchorPoint = CGPointMake(0, 0); // May be need to change to (0, 0.5) to perform better reductuion of hp;
     opponentHpBarNode.zPosition = 12;
-    [opponentHpBarBackgroundNode addChild:opponentHpBarNode];
+    _opponentHpBar = opponentHpBarNode;
+    [opponentHpBarBackgroundNode addChild:_opponentHpBar];
     
     //Stamina Bars
     SKSpriteNode *opponentStaminaBarBackgroundNode = [SKSpriteNode spriteNodeWithColor:[SKColor blackColor] size:barSize];
@@ -126,7 +138,8 @@
     SKSpriteNode *opponentStaminaBarNode = [SKSpriteNode spriteNodeWithColor:[SKColor blueColor] size:barSize];
     opponentStaminaBarNode.anchorPoint = CGPointMake(0, 0); // May be need to change to (0, 0.5) to perform better reductuion of hp;
     opponentStaminaBarNode.zPosition = 12;
-    [opponentStaminaBarBackgroundNode addChild:opponentStaminaBarNode];
+    _opponentStaminaBar = opponentStaminaBarNode;
+    [opponentStaminaBarBackgroundNode addChild:_opponentStaminaBar];
     
     //Lower HUD
     SKSpriteNode *lowerHUD = [SKSpriteNode spriteNodeWithColor:[SKColor lightGrayColor] size:hudSize];
@@ -214,7 +227,7 @@
     player.name = @"playerNode";
     
     player.fighterName = @"playerName";
-    player.hp = 10;
+    player.hp = 100;
     player.stamina = 100;
     
     //DAMAGE
@@ -280,7 +293,7 @@
     opponent.fighterName = @"opponentName";
     opponent.name = @"opponentNode";
     
-    opponent.hp = 10;
+    opponent.hp = 100;
     opponent.stamina = 100;
     
     //DAMAGE
@@ -469,8 +482,50 @@
 - (void)leftStraightPunch {
     
     NSLog(@"leftStraightPunch");
+    
+    //set first or second action
     [self checkPlayerFirstAndSecondActions:@"leftStraightPunch"];
     
+    //check if this left punch (First action) is blocked by opponent
+    if ([_player.firstAction isEqualToString:@"leftStraightPunch"]) {
+        
+        if (![_opponent.firstAction isEqualToString:@"rightUpBlock"]) {
+            
+            //reduce opponent's hp and size of opponent's hp bar
+            if (_opponent.hp > 0) {
+            
+            _opponent.hp = _opponent.hp - _player.leftStraightPunchDamage;
+            NSLog(@"opponent hp = %d", _opponent.hp);
+                
+            CGFloat hpBarNewWidth = _opponentHpBar.size.width - _defaultBarSize.width * _player.leftStraightPunchDamage / 100;
+            _opponentHpBar.size = CGSizeMake(hpBarNewWidth, _opponentHpBar.size.height);
+            }
+            
+        } else {
+            
+            NSLog(@"leftStraightPunch was blocked by opponent");
+        }
+    }
+    //check if this left punch (Second action) is blocked by opponent
+    else if ([_player.secondAction isEqualToString:@"leftStraightPunch"]) {
+    
+        if (![_opponent.secondAction isEqualToString:@"rightUpBlock"]) {
+            
+            //reduce opponent's hp and size of opponent's hp bar
+            if (_opponent.hp > 0) {
+            
+            _opponent.hp = _opponent.hp - _player.leftStraightPunchDamage;
+            NSLog(@"opponent hp = %d", _opponent.hp);
+                
+            CGFloat hpBarNewWidth = _opponentHpBar.size.width - _defaultBarSize.width * _player.leftStraightPunchDamage / 100;
+            _opponentHpBar.size = CGSizeMake(hpBarNewWidth, _opponentHpBar.size.height);
+            }
+            
+        } else {
+            
+            NSLog(@"leftStraightPunch was blocked by opponent");
+        }
+    }
 }
 - (void)leftSwingPunch {
     
@@ -564,7 +619,5 @@
         NSLog(@"player's second action is : %@", _player.secondAction);
     }
 }
-
-
 
 @end
