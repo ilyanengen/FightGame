@@ -228,7 +228,7 @@
     
     player.fighterName = @"playerName";
     player.hp = 100;
-    player.stamina = 100;
+    player.stamina = 10;
     
     //DAMAGE
     
@@ -483,61 +483,59 @@
     
     NSLog(@"leftStraightPunch");
     
-    //CHECK STAMINA HERE????
-    
-    
+    //CHECK STAMINA
+    if (_player.stamina > 0) {
+        
+    //CHECK TIMER
+        
     //set first or second action
     [self checkPlayerFirstAndSecondActions:@"leftStraightPunch"];
-    
-    
-    //1.check if this left punch is First action
-    if ([_player.firstAction isEqualToString:@"leftStraightPunch"]) {
         
-        if (_player.stamina > 0) {
-        _player.stamina = _player.stamina - _player.leftStraightPunchStamina;
+        //1.check if this left punch is First action
+        if ([_player.firstAction isEqualToString:@"leftStraightPunch"]) {
+        
+            //2.reduce Stamina from Player's stamina bar
+            _player.stamina = _player.stamina - _player.leftStraightPunchStamina;
             NSLog(@"player's stamina = %d", _player.stamina);
-            CGFloat staminaBarNewWidth = _playerStaminaBar.size.width - _defaultBarSize.width * _player.leftStraightPunchStamina / 100;
+            CGFloat staminaBarNewWidth = _playerStaminaBar.size.width - _defaultBarSize.width * _player.leftStraightPunchStamina / 10;
             _playerStaminaBar.size = CGSizeMake(staminaBarNewWidth, _playerStaminaBar.size.height);
         
-            //2.check if this left punch (First action) is blocked by opponent
+            //3.check if this left punch (First action) is blocked by opponent
             if (![_opponent.firstAction isEqualToString:@"rightUpBlock"]) {
             
-            //3.reduce opponent's hp and size of opponent's hp bar
-            if (_opponent.hp > 0) {
+                //4.reduce opponent's hp and size of opponent's hp bar
+                if (_opponent.hp > 0) {
             
             _opponent.hp = _opponent.hp - _player.leftStraightPunchDamage;
             NSLog(@"opponent hp = %d", _opponent.hp);
-                
             CGFloat hpBarNewWidth = _opponentHpBar.size.width - _defaultBarSize.width * _player.leftStraightPunchDamage / 100;
             _opponentHpBar.size = CGSizeMake(hpBarNewWidth, _opponentHpBar.size.height);
             }
-            
+                
         } else {
             
             NSLog(@"leftStraightPunch was blocked by opponent");
-        }} else {NSLog(@"Not enough stamina");}
-    }
+            }}
     
     /*****************************/
     
     //1.check if this left punch is Second action
     else if ([_player.secondAction isEqualToString:@"leftStraightPunch"]) {
-    
-            if (_player.stamina > 0) {
-            _player.stamina = _player.stamina - _player.leftStraightPunchStamina;
+        
+            //2.reduce Stamina from Player's stamina bar
+                _player.stamina = _player.stamina - _player.leftStraightPunchStamina;
                 NSLog(@"player's stamina = %d", _player.stamina);
-                CGFloat staminaBarNewWidth = _playerStaminaBar.size.width - _defaultBarSize.width * _player.leftStraightPunchStamina / 100;
+                CGFloat staminaBarNewWidth = _playerStaminaBar.size.width - _defaultBarSize.width * _player.leftStraightPunchStamina / 10;
                 _playerStaminaBar.size = CGSizeMake(staminaBarNewWidth, _playerStaminaBar.size.height);
         
-            //2.check if this left punch (Second action) is blocked by opponent
+            //3.check if this left punch (Second action) is blocked by opponent
             if (![_opponent.secondAction isEqualToString:@"rightUpBlock"]) {
             
-            //3.reduce opponent's hp and size of opponent's hp bar
-            if (_opponent.hp > 0) {
+                //4.reduce opponent's hp and size of opponent's hp bar
+                if (_opponent.hp > 0) {
             
             _opponent.hp = _opponent.hp - _player.leftStraightPunchDamage;
             NSLog(@"opponent hp = %d", _opponent.hp);
-                
             CGFloat hpBarNewWidth = _opponentHpBar.size.width - _defaultBarSize.width * _player.leftStraightPunchDamage / 100;
             _opponentHpBar.size = CGSizeMake(hpBarNewWidth, _opponentHpBar.size.height);
             }
@@ -546,10 +544,8 @@
             
             NSLog(@"leftStraightPunch was blocked by opponent");
         }} else {NSLog(@"Not enough stamina");}
-    }
-}
-    
-    
+    }}
+
 - (void)leftSwingPunch {
     
     NSLog(@"leftSwingPunch");
