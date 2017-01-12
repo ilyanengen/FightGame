@@ -219,6 +219,7 @@
 
 - (void)addPlayer {
 
+    //создаем игрока, но не добавляем его на сцену
     CGSize playerSize = CGSizeMake(screenWidth/4, screenHeight/2);
     Fighter *player = [Fighter spriteNodeWithColor:[SKColor greenColor] size:playerSize];
     player.anchorPoint = CGPointMake(0.5,0.5);
@@ -494,7 +495,21 @@
         //1.check if this left punch is First action
         if ([_player.firstAction isEqualToString:@"leftStraightPunch"]) {
         
+        
             //2.reduce Stamina from Player's stamina bar
+            // метод с передаваемым параметром - названием удара
+            //вызывыю метод что-то типа "playerStaminaReduction" и передаю параметр [playerStaminaReduction название удара].
+            //В методе playerStaminaReduction вызвать проперти Stamina
+            /*
+             Нужно создать класс FighterAction с пропертями: name, stamina, damage
+             
+             создать метод класса для инициализации initWithName: (NSString*) stamina:(int) damage:(int)
+             
+             эти параметры записывать в проперти экземпляра класса.
+             
+             */
+            
+            
             _player.stamina = _player.stamina - _player.leftStraightPunchStamina;
             NSLog(@"player's stamina = %d", _player.stamina);
             CGFloat staminaBarNewWidth = _playerStaminaBar.size.width - _defaultBarSize.width * _player.leftStraightPunchStamina / 10;
