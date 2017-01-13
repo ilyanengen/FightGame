@@ -8,6 +8,7 @@
 
 #import "GameScene.h"
 #import "Fighter.h"
+#import "FighterAction.h"
 
 @implementation GameScene {
     
@@ -231,53 +232,29 @@
     player.hp = 100;
     player.stamina = 10;
     
-    //DAMAGE
+    //leftUp
+    player.leftStraightPunch = [[FighterAction alloc]initWithActionName:@"leftStraightPunch" stamina:1 damage:1];
+    player.leftSwingPunch = [[FighterAction alloc]initWithActionName:@"leftSwingPunch" stamina:3 damage:3];
+    player.leftUppercutPunch = [[FighterAction alloc]initWithActionName:@"leftUppercutPunch" stamina:4 damage:4];
+    player.leftUpBlock = [[FighterAction alloc]initWithActionName:@"leftUpBlock" stamina:1 damage:0];
     
-    //leftUp damage
-    player.leftStraightPunchDamage = 1;
-    player.leftSwingPunchDamage = 3;
-    player.leftUppercutPunchDamage = 4;
+    //rightUp
+    player.rightStraightPunch = [[FighterAction alloc]initWithActionName:@"rightStraightPunch" stamina:1 damage:1];
+    player.rightSwingPunch = [[FighterAction alloc]initWithActionName:@"rightSwingPunch" stamina:3 damage:3];
+    player.rightUppercutPunch = [[FighterAction alloc]initWithActionName:@"rightUppercutPunch" stamina:4 damage:4];
+    player.rightUpBlock = [[FighterAction alloc]initWithActionName:@"rightUpBlock" stamina:1 damage:0];
     
-    //rightUp damage
-    player.rightStraightPunchDamage = 1;
-    player.rightSwingPunchDamage = 3;
-    player.rightUppercutPunchDamage = 4;
+    //leftDown
+    player.leftStraightKick = [[FighterAction alloc]initWithActionName:@"leftStraightKick" stamina:2 damage:2];
+    player.leftSwingKick = [[FighterAction alloc]initWithActionName:@"leftSwingKick" stamina:3 damage:3];
+    player.leftHighKick = [[FighterAction alloc]initWithActionName:@"leftHighKick" stamina:5 damage:5];
+    player.leftUpBlock = [[FighterAction alloc]initWithActionName:@"leftUpBlock" stamina:1 damage:1];
     
-    //leftDown damage
-    player.leftStraightKickDamage = 2;
-    player.leftSwingKickDamage = 3;
-    player.leftHighKickDamage = 5;
-    
-    //rightDown damage
-    player.rightStraightKickDamage = 2;
-    player.rightSwingKickDamage = 3;
-    player.rightHighKickDamage = 5;
-    
-    //STAMINA
-    
-    //leftUp stamina
-    player.leftStraightPunchStamina = 1;
-    player.leftSwingPunchStamina = 3;
-    player.leftUppercutPunchStamina = 4;
-    player.leftUpBlockStamina = 1;
-    
-    //rightUp stamina
-    player.rightStraightPunchStamina = 1;
-    player.rightSwingPunchStamina = 3;
-    player.rightUppercutPunchStamina = 4;
-    player.rightUpBlockStamina = 1;
-    
-    //leftDown stamina
-    player.leftStraightKickStamina = 2;
-    player.leftSwingKickStamina = 3;
-    player.leftHighKickStamina = 5;
-    player.leftDownBlockStamina = 1;
-    
-    //rightDown stamina
-    player.rightStraightKickStamina = 2;
-    player.rightSwingKickStamina = 3;
-    player.rightHighKickStamina = 5;
-    player.rightDownBlockStamina = 1;
+    //rightDown
+    player.rightStraightKick = [[FighterAction alloc]initWithActionName:@"rightStraightKick" stamina:2 damage:2];
+    player.rightSwingKick = [[FighterAction alloc]initWithActionName:@"rightSwingKick" stamina:3 damage:3];
+    player.rightHighKick = [[FighterAction alloc]initWithActionName:@"rightHighKick" stamina:5 damage:5];
+    player.rightUpBlock = [[FighterAction alloc]initWithActionName:@"rightUpBlock" stamina:1 damage:1];
 
     _player = player;
     
@@ -295,55 +272,31 @@
     opponent.name = @"opponentNode";
     
     opponent.hp = 100;
-    opponent.stamina = 100;
+    opponent.stamina = 10;
     
-    //DAMAGE
+    //leftUp
+    opponent.leftStraightPunch = [[FighterAction alloc]initWithActionName:@"leftStraightPunch" stamina:1 damage:1];
+    opponent.leftSwingPunch = [[FighterAction alloc]initWithActionName:@"leftSwingPunch" stamina:3 damage:3];
+    opponent.leftUppercutPunch = [[FighterAction alloc]initWithActionName:@"leftUppercutPunch" stamina:4 damage:4];
+    opponent.leftUpBlock = [[FighterAction alloc]initWithActionName:@"leftUpBlock" stamina:1 damage:0];
     
-    //leftUp damage
-    opponent.leftStraightPunchDamage = 1;
-    opponent.leftSwingPunchDamage = 3;
-    opponent.leftUppercutPunchDamage = 4;
+    //rightUp
+    opponent.rightStraightPunch = [[FighterAction alloc]initWithActionName:@"rightStraightPunch" stamina:1 damage:1];
+    opponent.rightSwingPunch = [[FighterAction alloc]initWithActionName:@"rightSwingPunch" stamina:3 damage:3];
+    opponent.rightUppercutPunch = [[FighterAction alloc]initWithActionName:@"rightUppercutPunch" stamina:4 damage:4];
+    opponent.rightUpBlock = [[FighterAction alloc]initWithActionName:@"rightUpBlock" stamina:1 damage:0];
     
-    //rightUp damage
-    opponent.rightStraightPunchDamage = 1;
-    opponent.rightSwingPunchDamage = 3;
-    opponent.rightUppercutPunchDamage = 4;
+    //leftDown
+    opponent.leftStraightKick = [[FighterAction alloc]initWithActionName:@"leftStraightKick" stamina:2 damage:2];
+    opponent.leftSwingKick = [[FighterAction alloc]initWithActionName:@"leftSwingKick" stamina:3 damage:3];
+    opponent.leftHighKick = [[FighterAction alloc]initWithActionName:@"leftHighKick" stamina:5 damage:5];
+    opponent.leftUpBlock = [[FighterAction alloc]initWithActionName:@"leftUpBlock" stamina:1 damage:1];
     
-    //leftDown damage
-    opponent.leftStraightKickDamage = 2;
-    opponent.leftSwingKickDamage = 3;
-    opponent.leftHighKickDamage = 5;
-    
-    //rightDown damage
-    opponent.rightStraightKickDamage = 2;
-    opponent.rightSwingKickDamage = 3;
-    opponent.rightHighKickDamage = 5;
-    
-    //STAMINA
-    
-    //leftUp stamina
-    opponent.leftStraightPunchStamina = 1;
-    opponent.leftSwingPunchStamina = 3;
-    opponent.leftUppercutPunchStamina = 4;
-    opponent.leftUpBlockStamina = 1;
-    
-    //rightUp stamina
-    opponent.rightStraightPunchStamina = 1;
-    opponent.rightSwingPunchStamina = 3;
-    opponent.rightUppercutPunchStamina = 4;
-    opponent.rightUpBlockStamina = 1;
-    
-    //leftDown stamina
-    opponent.leftStraightKickStamina = 2;
-    opponent.leftSwingKickStamina = 3;
-    opponent.leftHighKickStamina = 5;
-    opponent.leftDownBlockStamina = 1;
-    
-    //rightDown stamina
-    opponent.rightStraightKickStamina = 2;
-    opponent.rightSwingKickStamina = 3;
-    opponent.rightHighKickStamina = 5;
-    opponent.rightDownBlockStamina = 1;
+    //rightDown
+    opponent.rightStraightKick = [[FighterAction alloc]initWithActionName:@"rightStraightKick" stamina:2 damage:2];
+    opponent.rightSwingKick = [[FighterAction alloc]initWithActionName:@"rightSwingKick" stamina:3 damage:3];
+    opponent.rightHighKick = [[FighterAction alloc]initWithActionName:@"rightHighKick" stamina:5 damage:5];
+    opponent.rightUpBlock = [[FighterAction alloc]initWithActionName:@"rightUpBlock" stamina:1 damage:1];
 
     _opponent = opponent;
     [self addChild:_opponent];

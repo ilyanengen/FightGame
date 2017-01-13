@@ -17,12 +17,12 @@
     self = [super init];
     
     if (self) {
+        
         _actionName = actionName;
         _stamina = staminaValue;
         _damage = damageValue;
     }
     return self;
 }
-
 
 @end
