@@ -8,13 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
-@interface FighterAction : NSObject {
-    
-    NSString *_actionName;
-    int _damage;
-    int _stamina;
+@interface FighterAction : NSObject
 
-}
+@property (strong, nonatomic) NSString *actionName;
+@property (assign, nonatomic) int damage;
+@property (assign, nonatomic) int stamina;
 
 - (instancetype)initWithActionName:(NSString *)actionName
                   stamina:(int)staminaValue
