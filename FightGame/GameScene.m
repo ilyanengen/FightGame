@@ -248,13 +248,13 @@
     player.leftStraightKick = [[FighterAction alloc]initWithActionName:@"leftStraightKick" stamina:2 damage:2];
     player.leftSwingKick = [[FighterAction alloc]initWithActionName:@"leftSwingKick" stamina:3 damage:3];
     player.leftHighKick = [[FighterAction alloc]initWithActionName:@"leftHighKick" stamina:5 damage:5];
-    player.leftUpBlock = [[FighterAction alloc]initWithActionName:@"leftUpBlock" stamina:1 damage:1];
+    player.leftDownBlock = [[FighterAction alloc]initWithActionName:@"leftDownBlock" stamina:1 damage:0];
     
     //rightDown
     player.rightStraightKick = [[FighterAction alloc]initWithActionName:@"rightStraightKick" stamina:2 damage:2];
     player.rightSwingKick = [[FighterAction alloc]initWithActionName:@"rightSwingKick" stamina:3 damage:3];
     player.rightHighKick = [[FighterAction alloc]initWithActionName:@"rightHighKick" stamina:5 damage:5];
-    player.rightUpBlock = [[FighterAction alloc]initWithActionName:@"rightUpBlock" stamina:1 damage:1];
+    player.rightDownBlock = [[FighterAction alloc]initWithActionName:@"rightDownBlock" stamina:1 damage:0];
 
     _player = player;
     
@@ -290,13 +290,13 @@
     opponent.leftStraightKick = [[FighterAction alloc]initWithActionName:@"leftStraightKick" stamina:2 damage:2];
     opponent.leftSwingKick = [[FighterAction alloc]initWithActionName:@"leftSwingKick" stamina:3 damage:3];
     opponent.leftHighKick = [[FighterAction alloc]initWithActionName:@"leftHighKick" stamina:5 damage:5];
-    opponent.leftUpBlock = [[FighterAction alloc]initWithActionName:@"leftUpBlock" stamina:1 damage:1];
+    opponent.leftDownBlock = [[FighterAction alloc]initWithActionName:@"leftDownBlock" stamina:1 damage:0];
     
     //rightDown
     opponent.rightStraightKick = [[FighterAction alloc]initWithActionName:@"rightStraightKick" stamina:2 damage:2];
     opponent.rightSwingKick = [[FighterAction alloc]initWithActionName:@"rightSwingKick" stamina:3 damage:3];
     opponent.rightHighKick = [[FighterAction alloc]initWithActionName:@"rightHighKick" stamina:5 damage:5];
-    opponent.rightUpBlock = [[FighterAction alloc]initWithActionName:@"rightUpBlock" stamina:1 damage:1];
+    opponent.rightDownBlock = [[FighterAction alloc]initWithActionName:@"rightDownBlock" stamina:1 damage:0];
 
     _opponent = opponent;
     [self addChild:_opponent];
