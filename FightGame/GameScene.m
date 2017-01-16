@@ -441,8 +441,8 @@
     
     //CHECK STAMINA
     if (_player.stamina > 0) {
-        
-    //CHECK whether TIME is Out or Not
+    
+        //CHECK whether TIME is Out or Not
         
     //set first or second action
     [self checkPlayerFirstAndSecondActions:playerActionName];
@@ -451,12 +451,10 @@
         if ([_player.firstAction isEqualToString:playerActionName]) {
     
             //2.reduce player's stamina and player's stamina bar
-            _player.stamina = _player.stamina - _player.leftStraightPunch.stamina;
-            NSLog(@"player's stamina = %d", _player.stamina);
-            
-            CGFloat staminaBarNewWidth = _playerStaminaBar.size.width - _defaultBarSize.width * _player.leftStraightPunch.stamina / 10;
-            _playerStaminaBar.size = CGSizeMake(staminaBarNewWidth, _playerStaminaBar.size.height);
-        
+            [self reduceStaminaOfFighter: _player
+                   reduceStaminaBarWidth: _playerStaminaBar
+                      usingFighterAction:_player.leftStraightPunch];
+             
             //3.check if this left punch (First action) is NOT blocked by opponent
             if (![_opponent.firstAction isEqualToString:@"rightUpBlock"]) {
             
@@ -474,7 +472,7 @@
             NSLog(@"leftStraightPunch was blocked by opponent");
             }}
     
-    /*****************************/
+    /************ LET'S CHECK SECOND ACTION *****************/
     
         //1.check if this left punch is Second action /*/
        else if ([_player.secondAction isEqualToString:playerActionName]) {
@@ -501,10 +499,11 @@
             } else {
                 
                 NSLog(@"leftStraightPunch was blocked by opponent");
-            }}
-    
-        NSLog(@"ERROR! This action is not FIRST or SECOND action of player");
-    }}
+            
+            }}} else {
+        
+    NSLog(@"NOT ENOUGH STAMINA!");
+}}
 
 - (void)handleLeftSwingPunch {
     
@@ -597,6 +596,18 @@
         _player.secondAction = actionString;
         NSLog(@"player's second action is : %@", _player.secondAction);
     }
+}
+
+- (void)reduceStaminaOfFighter: (Fighter *)fighter reduceStaminaBarWidth: (SKSpriteNode *)fighterStaminaBar usingFighterAction:(FighterAction *)fighterAction {
+
+    //reduce stamina value of fighter
+    fighter.stamina = fighter.stamina - fighter.leftStraightPunch.stamina;
+    
+    //reduce width of fighter's stamina bar
+    CGFloat staminaBarNewWidth = fighterStaminaBar.size.width - _defaultBarSize.width * fighterAction.stamina / 10;
+    fighterStaminaBar.size = CGSizeMake(staminaBarNewWidth, fighterStaminaBar.size.height);
+    
+    NSLog(@"player's stamina = %d \n player's staminaBarWidth = %f", fighter.stamina, fighterStaminaBar.size.width);
 }
 
 @end
