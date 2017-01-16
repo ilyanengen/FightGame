@@ -338,11 +338,11 @@
         if([touchedNode.name isEqualToString:@"upperLeftScreen"]) {
             [self handleLeftStraightPunch];
         } else if([touchedNode.name isEqualToString:@"upperRightScreen"]) {
-            [self rightStraightPunch];
+            [self handleRightStraightPunch];
         } else if([touchedNode.name isEqualToString:@"lowerLeftScreen"]) {
-            [self leftStraightKick];
+            [self handleLeftStraightKick];
         } else if ([touchedNode.name isEqualToString:@"lowerRightScreen"]) {
-            [self rightStraightKick];
+            [self handleRightStraightKick];
         } else {
             NSLog(@"Incorrect node was tapped - no action is executed");
         }
@@ -359,9 +359,9 @@
         SKNode *touchedNode = (SKNode *)[self nodeAtPoint:touchLocation]; //Находим нод, который соответствует позиции на GameScene
         
         if([touchedNode.name isEqualToString:@"upperLeftScreen"]) {
-            [self leftSwingPunch];
+            [self handleLeftSwingPunch];
         } else if([touchedNode.name isEqualToString:@"lowerLeftScreen"]) {
-            [self leftSwingKick];
+            [self handleLeftSwingKick];
         } else {
             NSLog(@"Incorrect node was tapped - no action is executed");
         }
@@ -378,9 +378,9 @@
         SKNode *touchedNode = (SKNode *)[self nodeAtPoint:touchLocation]; //Находим нод, который соответствует позиции на GameScene
         
         if([touchedNode.name isEqualToString:@"upperRightScreen"]) {
-            [self rightSwingPunch];
+            [self handleRightSwingPunch];
         } else if ([touchedNode.name isEqualToString:@"lowerRightScreen"]) {
-            [self rightSwingKick];
+            [self handleRightSwingKick];
         } else {
             NSLog(@"Incorrect node was tapped - no action is executed");
         }
@@ -396,13 +396,13 @@
         SKNode *touchedNode = (SKNode *)[self nodeAtPoint:touchLocation]; //Находим нод, который соответствует позиции на GameScene
         
         if([touchedNode.name isEqualToString:@"upperLeftScreen"]) {
-            [self leftUppercutPunch];
+            [self handleLeftUppercutPunch];
         } else if([touchedNode.name isEqualToString:@"upperRightScreen"]) {
-            [self rightUppercutPunch];
+            [self handleRightUppercutPunch];
         } else if([touchedNode.name isEqualToString:@"lowerLeftScreen"]) {
-            [self leftHighKick];
+            [self handleLeftHighKick];
         } else if ([touchedNode.name isEqualToString:@"lowerRightScreen"]) {
-            [self rightHighKick];
+            [self handleRightHighKick];
         } else {
             NSLog(@"Incorrect node was tapped - no action is executed");
         }
@@ -418,13 +418,13 @@
         SKNode *touchedNode = (SKNode *)[self nodeAtPoint:touchLocation]; //Находим нод, который соответствует позиции на GameScene
         
         if([touchedNode.name isEqualToString:@"upperLeftScreen"]) {
-            [self leftUpBlock];
+            [self handleLeftUpBlock];
         } else if([touchedNode.name isEqualToString:@"upperRightScreen"]) {
-            [self rightUpBlock];
+            [self handleRightUpBlock];
         } else if([touchedNode.name isEqualToString:@"lowerLeftScreen"]) {
-            [self leftDownBlock];
+            [self handleLeftDownBlock];
         } else if ([touchedNode.name isEqualToString:@"lowerRightScreen"]) {
-            [self rightDownBlock];
+            [self handleRightDownBlock];
         } else {
             NSLog(@"Incorrect node was tapped - no action is executed");
         }
@@ -504,7 +504,7 @@
             }}
     
         NSLog(@"ERROR! This action is not FIRST or SECOND action of player");
-    }
+    }}
 
 - (void)handleLeftSwingPunch {
     

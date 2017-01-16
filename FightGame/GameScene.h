@@ -10,4 +10,27 @@
 
 @interface GameScene : SKScene
 
+//leftUp
+- (void)handleLeftStraightPunch;
+- (void)handleLeftSwingPunch;
+- (void)handleLeftUppercutPunch;
+- (void)handleLeftUpBlock;
+//rightUp
+- (void)handleRightStraightPunch;
+- (void)handleRightSwingPunch;
+- (void)handleRightUppercutPunch;
+- (void)handleRightUpBlock;
+//leftDown
+- (void)handleLeftStraightKick;
+- (void)handleLeftSwingKick;
+- (void)handleLeftHighKick;
+- (void)handleLeftDownBlock;
+//rightDown
+- (void)handleRightStraightKick;
+- (void)handleRightSwingKick;
+- (void)handleRightHighKick;
+- (void)handleRightDownBlock;
+
+- (void)checkPlayerFirstAndSecondActions: (NSString *)actionString;
+
 @end
