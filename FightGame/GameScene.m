@@ -442,10 +442,12 @@
     //CHECK STAMINA
     if (_player.stamina > 0) {
     
-        //CHECK whether TIME is Out or Not
+        //CHECK whether TIME is Out or Not --- Таймер еще не добавлен!
         
     //set first or second action
     [self checkPlayerFirstAndSecondActions:playerActionName];
+       
+    /************ LET'S CHECK FIRST ACTION *****************/
         
         //1.check if this left punch is First action
         if ([_player.firstAction isEqualToString:playerActionName]) {
@@ -461,10 +463,9 @@
                 //4.reduce opponent's hp and size of opponent's hp bar
                 if (_opponent.hp > 0) {
     
-            _opponent.hp = _opponent.hp - _player.leftStraightPunch.damage;
-            NSLog(@"opponent hp = %d", _opponent.hp);
-            CGFloat hpBarNewWidth = _opponentHpBar.size.width - _defaultBarSize.width * _player.leftStraightPunch.damage / 100;
-            _opponentHpBar.size = CGSizeMake(hpBarNewWidth, _opponentHpBar.size.height);
+                   [self reduceHpOfFighter:_opponent
+                          reduceHpBarWidth:_opponentHpBar
+                usingOpponentFighterAction:_player.leftStraightPunch];
             }
                 
         } else {
@@ -477,30 +478,30 @@
         //1.check if this left punch is Second action /*/
        else if ([_player.secondAction isEqualToString:playerActionName]) {
             
-            //2.reduce player's stamina and player's stamina bar
-            _player.stamina = _player.stamina - _player.leftStraightPunch.stamina;
-            NSLog(@"player's stamina = %d", _player.stamina);
-            
-            CGFloat staminaBarNewWidth = _playerStaminaBar.size.width - _defaultBarSize.width * _player.leftStraightPunch.stamina / 10;
-            _playerStaminaBar.size = CGSizeMake(staminaBarNewWidth, _playerStaminaBar.size.height);
-            
+           //2.reduce player's stamina and player's stamina bar
+           [self reduceStaminaOfFighter: _player
+                  reduceStaminaBarWidth: _playerStaminaBar
+                     usingFighterAction:_player.leftStraightPunch];
+           
             //3.check if this left punch (First action) is NOT blocked by opponent /*/
             if (![_opponent.secondAction isEqualToString:@"rightUpBlock"]) {
                 
                 //4.reduce opponent's hp and size of opponent's hp bar
                 if (_opponent.hp > 0) {
                     
-                    _opponent.hp = _opponent.hp - _player.leftStraightPunch.damage;
-                    NSLog(@"opponent hp = %d", _opponent.hp);
-                    CGFloat hpBarNewWidth = _opponentHpBar.size.width - _defaultBarSize.width * _player.leftStraightPunch.damage / 100;
-                    _opponentHpBar.size = CGSizeMake(hpBarNewWidth, _opponentHpBar.size.height);
+                    [self reduceHpOfFighter:_opponent
+                           reduceHpBarWidth:_opponentHpBar
+                 usingOpponentFighterAction:_player.leftStraightPunch];
                 }
-                
             } else {
                 
                 NSLog(@"leftStraightPunch was blocked by opponent");
             
-            }}} else {
+            }}else {
+                NSLog(@"FIRST AND SECOND ACTIONS ARE ALREADY SET!");
+            }
+        
+    } else {
         
     NSLog(@"NOT ENOUGH STAMINA!");
 }}
@@ -608,6 +609,18 @@
     fighterStaminaBar.size = CGSizeMake(staminaBarNewWidth, fighterStaminaBar.size.height);
     
     NSLog(@"player's stamina = %d \n player's staminaBarWidth = %f", fighter.stamina, fighterStaminaBar.size.width);
+}
+
+- (void)reduceHpOfFighter: (Fighter *)fighter reduceHpBarWidth: (SKSpriteNode *)fighterHpBar usingOpponentFighterAction: (FighterAction *) fighterAction {
+
+    //reduce hp
+    fighter.hp = fighter.hp - fighterAction.damage;
+    
+    //reduce width of HpBar
+    CGFloat hpBarNewWidth = fighterHpBar.size.width - _defaultBarSize.width * fighterAction.damage / 100;
+    fighterHpBar.size = CGSizeMake(hpBarNewWidth, fighterHpBar.size.height);
+    
+    NSLog(@"fighter hp = %d \n opponent's hpBarWidth = %f", fighter.hp, fighterHpBar.size.width);
 }
 
 @end
