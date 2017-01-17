@@ -13,8 +13,8 @@
 
 @property (strong, nonatomic) NSString *fighterName;
 
-@property (strong, nonatomic) NSString *firstAction;
-@property (strong, nonatomic) NSString *secondAction;
+@property (strong, nonatomic) FighterAction *firstAction;
+@property (strong, nonatomic) FighterAction *secondAction;
 
 @property (assign, nonatomic) BOOL firstTurnIsOver;
 @property (assign, nonatomic) BOOL secondTurnIsOver;

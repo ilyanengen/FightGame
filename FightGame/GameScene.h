@@ -7,6 +7,8 @@
 //
 
 #import <SpriteKit/SpriteKit.h>
+#import "FighterAction.h"
+#import "Fighter.h"
 
 @interface GameScene : SKScene
 
@@ -31,6 +33,6 @@
 - (void)handleRightHighKick;
 - (void)handleRightDownBlock;
 
-- (void)checkPlayerFirstAndSecondActions: (NSString *)actionString;
+- (void)checkPlayerFirstAndSecondActions: (FighterAction *)fighterAction;
 
 @end
