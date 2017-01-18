@@ -439,14 +439,12 @@
     
     NSLog(@"leftStraightPunch");
     
-    NSString *playerActionName = @"leftStraightPunch";
+    //NSString *playerActionName = @"leftStraightPunch";
     
     FighterAction *leftStraightPunch =  _player.leftStraightPunch;
     
     //CHECK STAMINA
     if (_player.stamina > 0) {
-    
-    //CHECK whether TIME is Out or Not --- Таймер еще не добавлен!
         
     //set first or second action
     [self checkPlayerFirstAndSecondActions:leftStraightPunch];
@@ -457,7 +455,7 @@
     /************ LET'S CHECK FIRST ACTION *****************/
         
         //1.check if this left punch is First action
-        if ([_player.firstAction.actionName isEqualToString:playerActionName]) {
+        if ([_player.firstAction.actionName isEqualToString:leftStraightPunch.actionName]) {
     
             //2.reduce player's stamina and player's stamina bar
             [self reduceStaminaOfFighter: _player
@@ -483,7 +481,7 @@
     /************ LET'S CHECK SECOND ACTION *****************/
     
         //1.check if this left punch is Second action /*/
-       else if ([_player.secondAction.actionName isEqualToString:playerActionName]) {
+       else if ([_player.secondAction.actionName isEqualToString:leftStraightPunch.actionName]) {
             
            //2.reduce player's stamina and player's stamina bar
            [self reduceStaminaOfFighter: _player
@@ -505,7 +503,7 @@
                 NSLog(@"leftStraightPunch was blocked by opponent");
             
             }}else {
-                NSLog(@"FIRST AND SECOND ACTIONS ARE ALREADY SET!");
+                
             }
         
         }} else {
@@ -516,83 +514,83 @@
 - (void)handleLeftSwingPunch {
     
     NSLog(@"leftSwingPunch");
-    [self checkPlayerFirstAndSecondActions:@"leftSwingPunch"];
+    [self checkPlayerFirstAndSecondActions:_player.leftSwingPunch];
 }
 - (void)handleLeftUppercutPunch {
     
     NSLog(@"leftUppercutPunch");
-    [self checkPlayerFirstAndSecondActions:@"leftUppercutPunch"];
+    [self checkPlayerFirstAndSecondActions:_player.leftUppercutPunch];
 }
 - (void)handleLeftUpBlock {
     
     NSLog(@"leftUpBlock");
-    [self checkPlayerFirstAndSecondActions:@"leftUpBlock"];
+    [self checkPlayerFirstAndSecondActions:_player.leftUpBlock];
 }
 
 //rightUp
 - (void)handleRightStraightPunch {
     
     NSLog(@"rightStraightPunch");
-    [self checkPlayerFirstAndSecondActions:@"rightStraightPunch"];
+    [self checkPlayerFirstAndSecondActions:_player.rightStraightPunch];
 }
 - (void)handleRightSwingPunch {
     
     NSLog(@"rightSwingPunch");
-    [self checkPlayerFirstAndSecondActions:@"rightSwingPunch"];
+    [self checkPlayerFirstAndSecondActions:_player.rightSwingPunch];
 }
 - (void)handleRightUppercutPunch {
     
     NSLog(@"rightUppercutPunch");
-    [self checkPlayerFirstAndSecondActions:@"rightUppercutPunch"];
+    [self checkPlayerFirstAndSecondActions:_player.rightUppercutPunch];
 }
 - (void)handleRightUpBlock {
     
     NSLog(@"rightUpBlock");
-    [self checkPlayerFirstAndSecondActions:@"rightUpBlock"];
+    [self checkPlayerFirstAndSecondActions:_player.rightUpBlock];
 }
 
 //leftDown
 - (void)handleLeftStraightKick {
     
     NSLog(@"leftStraightKick");
-    [self checkPlayerFirstAndSecondActions:@"leftStraightKick"];
+    [self checkPlayerFirstAndSecondActions:_player.leftStraightKick];
 }
 - (void)handleLeftSwingKick {
     
     NSLog(@"leftSwingKick");
-    [self checkPlayerFirstAndSecondActions:@"leftSwingKick"];
+    [self checkPlayerFirstAndSecondActions:_player.leftSwingKick];
 }
 - (void)handleLeftHighKick {
     
     NSLog(@"leftHighKick");
-    [self checkPlayerFirstAndSecondActions:@"leftHighKick"];
+    [self checkPlayerFirstAndSecondActions:_player.leftHighKick];
 }
 - (void)handleLeftDownBlock {
     
     NSLog(@"leftDownBlock");
-    [self checkPlayerFirstAndSecondActions:@"leftDownBlock"];
+    [self checkPlayerFirstAndSecondActions:_player.leftDownBlock];
 }
 
 //rightDown
 - (void)handleRightStraightKick {
     
     NSLog(@"rightStraightKick");
-    [self checkPlayerFirstAndSecondActions:@"rightStraightKick"];
+    [self checkPlayerFirstAndSecondActions:_player.leftStraightKick];
 }
 - (void)handleRightSwingKick {
     
     NSLog(@"rightSwingKick");
-    [self checkPlayerFirstAndSecondActions:@"rightSwingKick"];
+    [self checkPlayerFirstAndSecondActions:_player.leftSwingKick];
 }
 - (void)handleRightHighKick {
     
     NSLog(@"rightHighKick");
-    [self checkPlayerFirstAndSecondActions:@"rightHighKick"];
+    [self checkPlayerFirstAndSecondActions:_player.rightHighKick];
 }
 - (void)handleRightDownBlock {
     
     NSLog(@"rightDownBlock");
-    [self checkPlayerFirstAndSecondActions:@"rightDownBlock"];
+    [self checkPlayerFirstAndSecondActions:_player.rightDownBlock];
 }
 
 - (void)checkPlayerFirstAndSecondActions: (FighterAction *)fighterAction {
@@ -605,6 +603,7 @@
         NSLog(@"\n\nplayer's SECOND ACTION is : %@\n\n", _player.secondAction.actionName);
     }else {
         _firstAndSecondActionsAreAlreadySet = YES;
+        NSLog(@"FIRST AND SECOND ACTIONS ARE ALREADY SET!");
     }
 }
 
