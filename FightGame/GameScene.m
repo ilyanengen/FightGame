@@ -439,12 +439,31 @@
     
     NSLog(@"leftStraightPunch");
     
-    //NSString *playerActionName = @"leftStraightPunch";
-    
-    FighterAction *leftStraightPunch =  _player.leftStraightPunch;
+    FighterAction *leftStraightPunch = _player.leftStraightPunch;
     
     //CHECK STAMINA
     if (_player.stamina > 0) {
+        
+        
+        
+        /*
+         
+         НУЖНО УБРАТЬ ВСЕ ЭТИ ПРОВЕРКИ! ОСТАВИТЬ ПРОВЕРКИ ТОЛЬКО У FIRST и SECOND ACTIONS!!!!
+         
+         -First и Second actions мы назначаем из методов ударов/блоков.
+         -Потом Оппонент назначает First и Second Actions (можно проверять в update методе)
+         -Потом запускаем методы сравнения и
+         -Потом метод анимации ударов игрока и оппонента
+         -Потом first и second actions у игрока и оппонента обнуляются
+         
+         
+         */
+        
+        
+        
+        
+        
+        
         
     //set first or second action
     [self checkPlayerFirstAndSecondActions:leftStraightPunch];
@@ -502,10 +521,7 @@
                 
                 NSLog(@"leftStraightPunch was blocked by opponent");
             
-            }}else {
-                
-            }
-        
+            }}
         }} else {
         
     NSLog(@"NOT ENOUGH STAMINA!");
