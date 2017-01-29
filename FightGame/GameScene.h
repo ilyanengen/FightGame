@@ -34,5 +34,6 @@
 - (void)handleRightDownBlock;
 
 - (void)checkPlayerFirstAndSecondActions: (FighterAction *)fighterAction;
+- (void)addOpponentFirstAndSecondActions;
 
 @end

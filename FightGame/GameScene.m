@@ -35,9 +35,12 @@
     Fighter *_player;
     Fighter *_opponent;
     
+    NSArray *_opponentActionsArray;
+    
     //Gameplay variables
     
     BOOL _firstAndSecondActionsAreAlreadySet;
+    BOOL _opponentFirstAndSecondActionsAreAlreadySet;
 }
 
 - (void)didMoveToView:(SKView *)view {
@@ -62,14 +65,19 @@
     
     //Opponent
     [self addOpponent];
+    
+    //Set up gameplay variables
+    _firstAndSecondActionsAreAlreadySet = NO;
+    _opponentFirstAndSecondActionsAreAlreadySet = NO;
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
 }
 
 
+#pragma mark - UPDATE METHOD
 -(void)update:(CFTimeInterval)currentTime {
-    // Called before each frame is rendered
+
 }
 
 #pragma mark - Addition of main nodes to Game Scene
@@ -302,6 +310,13 @@
 
     _opponent = opponent;
     [self addChild:_opponent];
+    
+    _opponentActionsArray = [NSArray arrayWithObjects:
+                             opponent.leftStraightPunch, opponent.leftSwingPunch, opponent.leftUppercutPunch,opponent.leftUpBlock,
+                             opponent.rightStraightPunch, opponent.rightSwingPunch, opponent.rightUppercutPunch, opponent.rightUpBlock,
+                             opponent.leftStraightKick, opponent.leftSwingKick, opponent.leftHighKick, opponent.leftDownBlock,
+                             opponent.rightStraightKick, opponent.rightSwingKick, opponent.rightHighKick, opponent.rightDownBlock, nil];
+    
 }
 
 #pragma mark - UIGestureRecognizer
@@ -433,7 +448,7 @@
     }
 }
 
-#pragma mark --- Player's Punches and Kicks
+#pragma mark - Player's Punches and Kicks
 //leftUp
 - (void)handleLeftStraightPunch {
     
@@ -444,11 +459,12 @@
     //CHECK STAMINA
     if (_player.stamina > 0) {
         
-        
+        //set first or second action
+        [self checkPlayerFirstAndSecondActions:leftStraightPunch];
+        [self addOpponentFirstAndSecondActions];
         
         /*
-         
-         НУЖНО УБРАТЬ ВСЕ ЭТИ ПРОВЕРКИ! ОСТАВИТЬ ПРОВЕРКИ ТОЛЬКО У FIRST и SECOND ACTIONS!!!!
+        НУЖНО УБРАТЬ ВСЕ ЭТИ ПРОВЕРКИ! ОСТАВИТЬ ПРОВЕРКИ ТОЛЬКО У FIRST и SECOND ACTIONS!!!!
          
          -First и Second actions мы назначаем из методов ударов/блоков.
          -Потом Оппонент назначает First и Second Actions (можно проверять в update методе)
@@ -456,22 +472,11 @@
          -Потом метод анимации ударов игрока и оппонента
          -Потом first и second actions у игрока и оппонента обнуляются
          
-         
-         */
-        
-        
-        
-        
-        
-        
-        
-    //set first or second action
-    [self checkPlayerFirstAndSecondActions:leftStraightPunch];
         
         //Check whether First and Second actions are already set or not
         if (!_firstAndSecondActionsAreAlreadySet) {
         
-    /************ LET'S CHECK FIRST ACTION *****************/
+    //LET'S CHECK FIRST ACTION
         
         //1.check if this left punch is First action
         if ([_player.firstAction.actionName isEqualToString:leftStraightPunch.actionName]) {
@@ -497,9 +502,10 @@
             NSLog(@"leftStraightPunch was blocked by opponent");
             }}
     
-    /************ LET'S CHECK SECOND ACTION *****************/
+    //LET'S CHECK SECOND ACTION
     
-        //1.check if this left punch is Second action /*/
+    
+        //1.check if this left punch is Second action
        else if ([_player.secondAction.actionName isEqualToString:leftStraightPunch.actionName]) {
             
            //2.reduce player's stamina and player's stamina bar
@@ -507,7 +513,7 @@
                   reduceStaminaBarWidth: _playerStaminaBar
                      usingFighterAction:_player.leftStraightPunch];
            
-            //3.check if this left punch (First action) is NOT blocked by opponent /*/
+            //3.check if this left punch (First action) is NOT blocked by opponent
             if (![_opponent.secondAction.actionName isEqualToString:@"rightUpBlock"]) {
                 
                 //4.reduce opponent's hp and size of opponent's hp bar
@@ -520,27 +526,33 @@
             } else {
                 
                 NSLog(@"leftStraightPunch was blocked by opponent");
-            
             }}
-        }} else {
-        
+        }
+} else {
+
     NSLog(@"NOT ENOUGH STAMINA!");
-}}
+
+         */
+         }
+}
 
 - (void)handleLeftSwingPunch {
     
     NSLog(@"leftSwingPunch");
     [self checkPlayerFirstAndSecondActions:_player.leftSwingPunch];
+    [self addOpponentFirstAndSecondActions];
 }
 - (void)handleLeftUppercutPunch {
     
     NSLog(@"leftUppercutPunch");
     [self checkPlayerFirstAndSecondActions:_player.leftUppercutPunch];
+    [self addOpponentFirstAndSecondActions];
 }
 - (void)handleLeftUpBlock {
     
     NSLog(@"leftUpBlock");
     [self checkPlayerFirstAndSecondActions:_player.leftUpBlock];
+    [self addOpponentFirstAndSecondActions];
 }
 
 //rightUp
@@ -548,21 +560,25 @@
     
     NSLog(@"rightStraightPunch");
     [self checkPlayerFirstAndSecondActions:_player.rightStraightPunch];
+    [self addOpponentFirstAndSecondActions];
 }
 - (void)handleRightSwingPunch {
     
     NSLog(@"rightSwingPunch");
     [self checkPlayerFirstAndSecondActions:_player.rightSwingPunch];
+    [self addOpponentFirstAndSecondActions];
 }
 - (void)handleRightUppercutPunch {
     
     NSLog(@"rightUppercutPunch");
     [self checkPlayerFirstAndSecondActions:_player.rightUppercutPunch];
+    [self addOpponentFirstAndSecondActions];
 }
 - (void)handleRightUpBlock {
     
     NSLog(@"rightUpBlock");
     [self checkPlayerFirstAndSecondActions:_player.rightUpBlock];
+    [self addOpponentFirstAndSecondActions];
 }
 
 //leftDown
@@ -570,21 +586,25 @@
     
     NSLog(@"leftStraightKick");
     [self checkPlayerFirstAndSecondActions:_player.leftStraightKick];
+    [self addOpponentFirstAndSecondActions];
 }
 - (void)handleLeftSwingKick {
     
     NSLog(@"leftSwingKick");
     [self checkPlayerFirstAndSecondActions:_player.leftSwingKick];
+    [self addOpponentFirstAndSecondActions];
 }
 - (void)handleLeftHighKick {
     
     NSLog(@"leftHighKick");
     [self checkPlayerFirstAndSecondActions:_player.leftHighKick];
+    [self addOpponentFirstAndSecondActions];
 }
 - (void)handleLeftDownBlock {
     
     NSLog(@"leftDownBlock");
     [self checkPlayerFirstAndSecondActions:_player.leftDownBlock];
+    [self addOpponentFirstAndSecondActions];
 }
 
 //rightDown
@@ -592,37 +612,50 @@
     
     NSLog(@"rightStraightKick");
     [self checkPlayerFirstAndSecondActions:_player.leftStraightKick];
+    [self addOpponentFirstAndSecondActions];
 }
 - (void)handleRightSwingKick {
     
     NSLog(@"rightSwingKick");
     [self checkPlayerFirstAndSecondActions:_player.leftSwingKick];
+    [self addOpponentFirstAndSecondActions];
 }
 - (void)handleRightHighKick {
     
     NSLog(@"rightHighKick");
     [self checkPlayerFirstAndSecondActions:_player.rightHighKick];
+    [self addOpponentFirstAndSecondActions];
 }
 - (void)handleRightDownBlock {
     
     NSLog(@"rightDownBlock");
     [self checkPlayerFirstAndSecondActions:_player.rightDownBlock];
+    [self addOpponentFirstAndSecondActions];
 }
+
+#pragma mark - SET FIRST AND SECOND ACTION
 
 - (void)checkPlayerFirstAndSecondActions: (FighterAction *)fighterAction {
     
     if (!_player.firstAction) {
+        
         _player.firstAction = fighterAction;
         NSLog(@"\n\nplayer's FIRST ACTION is : %@\n\n", _player.firstAction.actionName);
+        
     } else if (!_player.secondAction) {
+        
         _player.secondAction = fighterAction;
         NSLog(@"\n\nplayer's SECOND ACTION is : %@\n\n", _player.secondAction.actionName);
-    }else {
         _firstAndSecondActionsAreAlreadySet = YES;
         NSLog(@"FIRST AND SECOND ACTIONS ARE ALREADY SET!");
+        
+    }else{
+        
+        NSLog(@"Sorry, but Player's First and Second actions are already set!");
     }
 }
 
+/*
 - (void)reduceStaminaOfFighter: (Fighter *)fighter reduceStaminaBarWidth: (SKSpriteNode *)fighterStaminaBar usingFighterAction:(FighterAction *)fighterAction {
 
     //reduce stamina value of fighter
@@ -645,6 +678,42 @@
     fighterHpBar.size = CGSizeMake(hpBarNewWidth, fighterHpBar.size.height);
     
     NSLog(@"fighter hp = %d, opponent's hpBarWidth = %f", fighter.hp, fighterHpBar.size.width);
+}
+ */
+
+
+#pragma mark - OPPONENT'S ACTIONS
+- (void)addOpponentFirstAndSecondActions {
+    
+    //добавить проверку на доступную стамину у оппонента!!!
+    
+    //Добавляем действия оппонента
+    
+    //Проверяем сходил ли игрок и не были ли еще выставлены действия оппонента
+    if (_firstAndSecondActionsAreAlreadySet && !_opponentFirstAndSecondActionsAreAlreadySet) {
+
+    NSUInteger firstRandomObjectNumber = [self randomObjectNumberFromArray:_opponentActionsArray];
+    NSLog(@"firstRandomObjectNumber = %ld", firstRandomObjectNumber);
+    
+    NSUInteger secondRandomObjectNumber = [self randomObjectNumberFromArray:_opponentActionsArray];
+    NSLog(@"secondRandomObjectNumber = %ld", secondRandomObjectNumber);
+    
+    _opponent.firstAction = [_opponentActionsArray objectAtIndex:firstRandomObjectNumber];
+    NSLog(@"\n\nopponent's FIRST ACTION IS : %@\n\n", _opponent.firstAction.actionName);
+    
+    _opponent.secondAction = [_opponentActionsArray objectAtIndex:secondRandomObjectNumber];
+    NSLog(@"\n\nopponent's SECOND ACTION IS : %@\n\n", _opponent.secondAction.actionName);
+    
+    _opponentFirstAndSecondActionsAreAlreadySet = YES;
+    }
+}
+
+- (NSUInteger)randomObjectNumberFromArray: (NSArray *)array {
+
+    NSUInteger arrayCount = [array count];
+    int randomInt = arc4random_uniform((int)arrayCount);
+    
+    return (NSUInteger)randomInt;
 }
 
 @end
