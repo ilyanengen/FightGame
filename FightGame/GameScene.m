@@ -705,6 +705,8 @@
     NSLog(@"\n\nopponent's SECOND ACTION IS : %@\n\n", _opponent.secondAction.actionName);
     
     _opponentFirstAndSecondActionsAreAlreadySet = YES;
+        
+    [self calculateResultOfRound];
     }
 }
 
@@ -714,6 +716,17 @@
     int randomInt = arc4random_uniform((int)arrayCount);
     
     return (NSUInteger)randomInt;
+}
+
+- (void)calculateResultOfRound {
+
+//тут мы рассчитываем исход действий игрока и оппонента
+
+//_player.firstAction
+//_player.secondAction
+//_opponent.firstAction
+//_opponent.secondAction
+    
 }
 
 @end
