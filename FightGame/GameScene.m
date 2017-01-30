@@ -74,7 +74,6 @@
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
 }
 
-
 #pragma mark - UPDATE METHOD
 -(void)update:(CFTimeInterval)currentTime {
 
@@ -322,6 +321,8 @@
 #pragma mark - UIGestureRecognizer
 - (void)addGestureRecognizers {
     
+    //Создаем GestureRecognizer'ы на каждый вид жеста и добавляем на главную вьюху
+    
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(handleTap:)];
     [self.view addGestureRecognizer:tapGesture];
     
@@ -454,13 +455,13 @@
     
     NSLog(@"leftStraightPunch");
     
-    FighterAction *leftStraightPunch = _player.leftStraightPunch;
+
     
     //CHECK STAMINA
-    if (_player.stamina > 0) {
+    if (_player.stamina >= _player.leftStraightPunch.stamina) {
         
         //set first or second action
-        [self checkPlayerFirstAndSecondActions:leftStraightPunch];
+        [self checkPlayerFirstAndSecondActions:_player.leftStraightPunch];
         [self addOpponentFirstAndSecondActions];
         
         /*
@@ -538,99 +539,153 @@
 
 - (void)handleLeftSwingPunch {
     
-    NSLog(@"leftSwingPunch");
-    [self checkPlayerFirstAndSecondActions:_player.leftSwingPunch];
-    [self addOpponentFirstAndSecondActions];
+    if (_player.stamina >= _player.leftSwingPunch.stamina) {
+    
+        NSLog(@"leftSwingPunch");
+        [self checkPlayerFirstAndSecondActions:_player.leftSwingPunch];
+        [self addOpponentFirstAndSecondActions];
+    }
 }
+
 - (void)handleLeftUppercutPunch {
     
+    if (_player.stamina >= _player.leftUppercutPunch.stamina) {
+        
     NSLog(@"leftUppercutPunch");
     [self checkPlayerFirstAndSecondActions:_player.leftUppercutPunch];
     [self addOpponentFirstAndSecondActions];
+    }
 }
+
 - (void)handleLeftUpBlock {
+    
+    if (_player.stamina >= _player.leftUpBlock.stamina) {
     
     NSLog(@"leftUpBlock");
     [self checkPlayerFirstAndSecondActions:_player.leftUpBlock];
     [self addOpponentFirstAndSecondActions];
+    }
 }
 
 //rightUp
 - (void)handleRightStraightPunch {
     
+    if (_player.stamina >= _player.rightStraightPunch.stamina) {
+        
     NSLog(@"rightStraightPunch");
     [self checkPlayerFirstAndSecondActions:_player.rightStraightPunch];
     [self addOpponentFirstAndSecondActions];
+    }
 }
+
 - (void)handleRightSwingPunch {
+    
+    if (_player.stamina >= _player.rightSwingPunch.stamina) {
     
     NSLog(@"rightSwingPunch");
     [self checkPlayerFirstAndSecondActions:_player.rightSwingPunch];
     [self addOpponentFirstAndSecondActions];
+    }
 }
+
 - (void)handleRightUppercutPunch {
+    
+    if (_player.stamina >= _player.rightUppercutPunch.stamina) {
     
     NSLog(@"rightUppercutPunch");
     [self checkPlayerFirstAndSecondActions:_player.rightUppercutPunch];
     [self addOpponentFirstAndSecondActions];
+    }
 }
+
 - (void)handleRightUpBlock {
     
+    if (_player.stamina >= _player.rightUpBlock.stamina) {
+        
     NSLog(@"rightUpBlock");
     [self checkPlayerFirstAndSecondActions:_player.rightUpBlock];
     [self addOpponentFirstAndSecondActions];
+    }
 }
 
 //leftDown
 - (void)handleLeftStraightKick {
     
+    if (_player.stamina >= _player.leftStraightKick.stamina) {
+    
     NSLog(@"leftStraightKick");
     [self checkPlayerFirstAndSecondActions:_player.leftStraightKick];
     [self addOpponentFirstAndSecondActions];
+    }
 }
+
 - (void)handleLeftSwingKick {
+    
+    if (_player.stamina >= _player.leftSwingKick.stamina) {
     
     NSLog(@"leftSwingKick");
     [self checkPlayerFirstAndSecondActions:_player.leftSwingKick];
     [self addOpponentFirstAndSecondActions];
+    }
 }
+
 - (void)handleLeftHighKick {
     
+    if (_player.stamina >= _player.leftHighKick.stamina) {
+        
     NSLog(@"leftHighKick");
     [self checkPlayerFirstAndSecondActions:_player.leftHighKick];
     [self addOpponentFirstAndSecondActions];
+    }
 }
 - (void)handleLeftDownBlock {
     
+    if (_player.stamina >= _player.leftDownBlock.stamina) {
+        
     NSLog(@"leftDownBlock");
     [self checkPlayerFirstAndSecondActions:_player.leftDownBlock];
     [self addOpponentFirstAndSecondActions];
+    }
 }
 
 //rightDown
 - (void)handleRightStraightKick {
     
+    if (_player.stamina >= _player.rightStraightKick.stamina) {
+    
     NSLog(@"rightStraightKick");
     [self checkPlayerFirstAndSecondActions:_player.leftStraightKick];
     [self addOpponentFirstAndSecondActions];
+    }
 }
+
 - (void)handleRightSwingKick {
+    
+    if (_player.stamina >= _player.rightSwingKick.stamina) {
     
     NSLog(@"rightSwingKick");
     [self checkPlayerFirstAndSecondActions:_player.leftSwingKick];
     [self addOpponentFirstAndSecondActions];
+    }
 }
+
 - (void)handleRightHighKick {
+    
+    if (_player.stamina >= _player.rightHighKick.stamina) {
     
     NSLog(@"rightHighKick");
     [self checkPlayerFirstAndSecondActions:_player.rightHighKick];
     [self addOpponentFirstAndSecondActions];
+    }
 }
 - (void)handleRightDownBlock {
+    
+    if (_player.stamina >= _player.rightDownBlock.stamina) {
     
     NSLog(@"rightDownBlock");
     [self checkPlayerFirstAndSecondActions:_player.rightDownBlock];
     [self addOpponentFirstAndSecondActions];
+    }
 }
 
 #pragma mark - SET FIRST AND SECOND ACTION
@@ -640,11 +695,15 @@
     if (!_player.firstAction) {
         
         _player.firstAction = fighterAction;
+        _player.stamina = _player.stamina - fighterAction.stamina;
+        
         NSLog(@"\n\nplayer's FIRST ACTION is : %@\n\n", _player.firstAction.actionName);
         
     } else if (!_player.secondAction) {
         
         _player.secondAction = fighterAction;
+        _player.stamina = _player.stamina - fighterAction.stamina;
+        
         NSLog(@"\n\nplayer's SECOND ACTION is : %@\n\n", _player.secondAction.actionName);
         _firstAndSecondActionsAreAlreadySet = YES;
         NSLog(@"FIRST AND SECOND ACTIONS ARE ALREADY SET!");
@@ -685,25 +744,45 @@
 #pragma mark - OPPONENT'S ACTIONS
 - (void)addOpponentFirstAndSecondActions {
     
-    //добавить проверку на доступную стамину у оппонента!!!
+#warning добавить проверку на доступную стамину у оппонента!!!
     
     //Добавляем действия оппонента
     
-    //Проверяем сходил ли игрок и не были ли еще выставлены действия оппонента
+    //Проверяем сделал ли игрок два действия и не были ли еще выставлены действия оппонента
     if (_firstAndSecondActionsAreAlreadySet && !_opponentFirstAndSecondActionsAreAlreadySet) {
 
+    
     NSUInteger firstRandomObjectNumber = [self randomObjectNumberFromArray:_opponentActionsArray];
-    NSLog(@"firstRandomObjectNumber = %ld", firstRandomObjectNumber);
-    
+    FighterAction *opponentFirstRandomAction = [_opponentActionsArray objectAtIndex:firstRandomObjectNumber];
+        
+        while (opponentFirstRandomAction.stamina < _opponent.stamina) {
+            
+            NSUInteger randomObjectNumber = [self randomObjectNumberFromArray:_opponentActionsArray];
+            NSLog(@"randomObjectNumber = %ld", randomObjectNumber);
+            opponentFirstRandomAction = [_opponentActionsArray objectAtIndex:randomObjectNumber];
+            
+            if (opponentFirstRandomAction.stamina >= _opponent.stamina)
+                break;
+        }
+        _opponent.firstAction = opponentFirstRandomAction;
+        NSLog(@"Opponent first random action is : %@", opponentFirstRandomAction.actionName);
+        
+        
+        ////////////////////////////////////////////////////////
+        
+        
+        /*
     NSUInteger secondRandomObjectNumber = [self randomObjectNumberFromArray:_opponentActionsArray];
-    NSLog(@"secondRandomObjectNumber = %ld", secondRandomObjectNumber);
-    
-    _opponent.firstAction = [_opponentActionsArray objectAtIndex:firstRandomObjectNumber];
-    NSLog(@"\n\nopponent's FIRST ACTION IS : %@\n\n", _opponent.firstAction.actionName);
+    [NSLog(@"secondRandomObjectNumber = %ld", secondRandomObjectNumber);
     
     _opponent.secondAction = [_opponentActionsArray objectAtIndex:secondRandomObjectNumber];
     NSLog(@"\n\nopponent's SECOND ACTION IS : %@\n\n", _opponent.secondAction.actionName);
+    */
     
+        
+        
+        
+        
     _opponentFirstAndSecondActionsAreAlreadySet = YES;
         
     [self calculateResultOfRound];
