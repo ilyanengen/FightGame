@@ -688,23 +688,31 @@
     }
 }
 
-#pragma mark - SET FIRST AND SECOND ACTION
-
+#pragma mark - SET PLAYER'S FIRST AND SECOND ACTIONS
 - (void)checkPlayerFirstAndSecondActions: (FighterAction *)fighterAction {
     
     if (!_player.firstAction) {
         
         _player.firstAction = fighterAction;
-        _player.stamina = _player.stamina - fighterAction.stamina;
         
-        NSLog(@"\n\nplayer's FIRST ACTION is : %@\n\n", _player.firstAction.actionName);
+        //отнимаем стамину для первого действия игрока
+        [self reduceStaminaOfFighter:_player
+               reduceStaminaBarWidth:_playerStaminaBar
+                  usingFighterAction:_player.firstAction];
+        
+        NSLog(@"\n\nplayer's FIRST ACTION is : %@ (stamina = %d, damage = %d)\n\n", _player.firstAction.actionName, _player.firstAction.stamina, _player.firstAction.damage);
         
     } else if (!_player.secondAction) {
         
         _player.secondAction = fighterAction;
-        _player.stamina = _player.stamina - fighterAction.stamina;
         
-        NSLog(@"\n\nplayer's SECOND ACTION is : %@\n\n", _player.secondAction.actionName);
+        //отнимаем стамину для второго действия игрока
+        [self reduceStaminaOfFighter:_player
+               reduceStaminaBarWidth:_playerStaminaBar
+                  usingFighterAction:_player.secondAction];
+        
+        NSLog(@"\n\nplayer's SECOND ACTION is : %@ (stamina = %d, damage = %d)\n\n", _player.secondAction.actionName, _player.secondAction.stamina, _player.secondAction.damage);
+        
         _firstAndSecondActionsAreAlreadySet = YES;
         NSLog(@"FIRST AND SECOND ACTIONS ARE ALREADY SET!");
         
@@ -714,78 +722,81 @@
     }
 }
 
-/*
-- (void)reduceStaminaOfFighter: (Fighter *)fighter reduceStaminaBarWidth: (SKSpriteNode *)fighterStaminaBar usingFighterAction:(FighterAction *)fighterAction {
-
-    //reduce stamina value of fighter
-    fighter.stamina = fighter.stamina - fighter.leftStraightPunch.stamina;
-    
-    //reduce width of fighter's stamina bar
-    CGFloat staminaBarNewWidth = fighterStaminaBar.size.width - _defaultBarSize.width * fighterAction.stamina / 10;
-    fighterStaminaBar.size = CGSizeMake(staminaBarNewWidth, fighterStaminaBar.size.height);
-    
-    NSLog(@"player's stamina = %d, player's staminaBarWidth = %f", fighter.stamina, fighterStaminaBar.size.width);
-}
-
-- (void)reduceHpOfFighter: (Fighter *)fighter reduceHpBarWidth: (SKSpriteNode *)fighterHpBar usingOpponentFighterAction: (FighterAction *) fighterAction {
-
-    //reduce hp
-    fighter.hp = fighter.hp - fighterAction.damage;
-    
-    //reduce width of HpBar
-    CGFloat hpBarNewWidth = fighterHpBar.size.width - _defaultBarSize.width * fighterAction.damage / 100;
-    fighterHpBar.size = CGSizeMake(hpBarNewWidth, fighterHpBar.size.height);
-    
-    NSLog(@"fighter hp = %d, opponent's hpBarWidth = %f", fighter.hp, fighterHpBar.size.width);
-}
- */
-
-
 #pragma mark - OPPONENT'S ACTIONS
 - (void)addOpponentFirstAndSecondActions {
     
-#warning добавить проверку на доступную стамину у оппонента!!!
+    NSLog(@"addOpponentFirstAndSecondActions method is called");
     
     //Добавляем действия оппонента
     
+    if (_opponent.stamina > 0) {
+        
     //Проверяем сделал ли игрок два действия и не были ли еще выставлены действия оппонента
     if (_firstAndSecondActionsAreAlreadySet && !_opponentFirstAndSecondActionsAreAlreadySet) {
 
-    
+    //OPPONENT'S FIRST ACTION
     NSUInteger firstRandomObjectNumber = [self randomObjectNumberFromArray:_opponentActionsArray];
     FighterAction *opponentFirstRandomAction = [_opponentActionsArray objectAtIndex:firstRandomObjectNumber];
         
-        while (opponentFirstRandomAction.stamina < _opponent.stamina) {
+        if (opponentFirstRandomAction.stamina > _opponent.stamina) {
             
-            NSUInteger randomObjectNumber = [self randomObjectNumberFromArray:_opponentActionsArray];
-            NSLog(@"randomObjectNumber = %ld", randomObjectNumber);
-            opponentFirstRandomAction = [_opponentActionsArray objectAtIndex:randomObjectNumber];
+            NSLog(@"opponentFirstRandomAction.stamina > _opponent.stamina!!!");
             
-            if (opponentFirstRandomAction.stamina >= _opponent.stamina)
-                break;
+            while (opponentFirstRandomAction.stamina > _opponent.stamina) {
+                
+                NSUInteger randomObjectNumber = [self randomObjectNumberFromArray:_opponentActionsArray];
+                NSLog(@"Lets find another randomAction!");
+                opponentFirstRandomAction = [_opponentActionsArray objectAtIndex:randomObjectNumber];
+                
+                if (opponentFirstRandomAction.stamina <= _opponent.stamina)
+                    break;
+                NSLog(@"WHOOOORAY!!!! opponentFirstRandomAction is set. Random action name is %@", opponentFirstRandomAction.actionName);
+                
+            }
         }
         _opponent.firstAction = opponentFirstRandomAction;
-        NSLog(@"Opponent first random action is : %@", opponentFirstRandomAction.actionName);
+        NSLog(@"\n\nopponent's FIRST ACTION is : %@ (stamina = %d, damage = %d)\n\n", _opponent.firstAction.actionName, _opponent.firstAction.stamina, _opponent.firstAction.damage);
+        
+        //Отнимаем стамину для первого действия оппонента
+        [self reduceStaminaOfFighter:_opponent
+               reduceStaminaBarWidth:_opponentStaminaBar
+                  usingFighterAction:_opponent.firstAction];
         
         
-        ////////////////////////////////////////////////////////
+        //OPPONENT'S SECOND ACTION
+        NSUInteger secondRandomObjectNumber = [self randomObjectNumberFromArray:_opponentActionsArray];
+        FighterAction *opponentSecondRandomAction = [_opponentActionsArray objectAtIndex:secondRandomObjectNumber];
         
+        if (opponentSecondRandomAction.stamina > _opponent.stamina) {
+            
+            NSLog(@"opponentSecondRandomAction.stamina > _opponent.stamina!!!");
+            
+            while (opponentSecondRandomAction.stamina > _opponent.stamina) {
+                
+                NSUInteger secondRandomObjectNumber = [self randomObjectNumberFromArray:_opponentActionsArray];
+                NSLog(@"Lets find another randomAction!");
+                opponentSecondRandomAction = [_opponentActionsArray objectAtIndex:secondRandomObjectNumber];
+                
+                if (opponentSecondRandomAction.stamina <= _opponent.stamina)
+                    break;
+                NSLog(@"WHOOOORAY!!!! opponentSecondRandomAction is set. Random action name is %@", opponentSecondRandomAction.actionName);
+                
+            }
+        }
+        _opponent.secondAction = opponentSecondRandomAction;
+        NSLog(@"\n\nopponent's SECOND ACTION is : %@ (stamina = %d, damage = %d)\n\n", _opponent.secondAction.actionName, _opponent.secondAction.stamina, _opponent.secondAction.damage);
         
-        /*
-    NSUInteger secondRandomObjectNumber = [self randomObjectNumberFromArray:_opponentActionsArray];
-    [NSLog(@"secondRandomObjectNumber = %ld", secondRandomObjectNumber);
-    
-    _opponent.secondAction = [_opponentActionsArray objectAtIndex:secondRandomObjectNumber];
-    NSLog(@"\n\nopponent's SECOND ACTION IS : %@\n\n", _opponent.secondAction.actionName);
-    */
-    
+        //Отнимаем стамину для второго действия оппонента
+        [self reduceStaminaOfFighter:_opponent
+               reduceStaminaBarWidth:_opponentStaminaBar
+                  usingFighterAction:_opponent.secondAction];
         
+        //Ставим булевый флаг, что первое и второе действия оппонента назначены
+        //Запускаем расчет действий и их результатов
+        _opponentFirstAndSecondActionsAreAlreadySet = YES;
+        [self calculateResultOfRound];
         
-        
-        
-    _opponentFirstAndSecondActionsAreAlreadySet = YES;
-        
-    [self calculateResultOfRound];
+    }
     }
 }
 
@@ -797,6 +808,8 @@
     return (NSUInteger)randomInt;
 }
 
+#pragma mark - CALCULATION OF RESULT
+
 - (void)calculateResultOfRound {
 
 //тут мы рассчитываем исход действий игрока и оппонента
@@ -806,6 +819,18 @@
 //_opponent.firstAction
 //_opponent.secondAction
     
+}
+
+- (void)reduceStaminaOfFighter: (Fighter *)fighter reduceStaminaBarWidth: (SKSpriteNode *)fighterStaminaBar usingFighterAction:(FighterAction *)fighterAction {
+    
+    //reduce stamina value of fighter
+    fighter.stamina = fighter.stamina - fighterAction.stamina;
+    
+    //reduce width of fighter's stamina bar
+    CGFloat staminaBarNewWidth = fighterStaminaBar.size.width - _defaultBarSize.width * fighterAction.stamina / 10;
+    fighterStaminaBar.size = CGSizeMake(staminaBarNewWidth, fighterStaminaBar.size.height);
+    
+    NSLog(@"%@'s stamina = %d, %@'s staminaBarWidth = %f", fighter.fighterName, fighter.stamina, fighter.fighterName, fighterStaminaBar.size.width);
 }
 
 @end
