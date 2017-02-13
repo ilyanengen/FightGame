@@ -455,8 +455,6 @@
     
     NSLog(@"leftStraightPunch");
     
-
-    
     //CHECK STAMINA
     if (_player.stamina >= _player.leftStraightPunch.stamina) {
         
