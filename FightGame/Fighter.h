@@ -27,28 +27,29 @@
 @property (assign, nonatomic) int hp;
 @property (assign, nonatomic) int stamina;
 
+//UP
+@property (strong, nonatomic) FighterAction *upBlock;
+
 //leftUp
 @property (strong, nonatomic) FighterAction *leftStraightPunch;
 @property (strong, nonatomic) FighterAction *leftSwingPunch;
 @property (strong, nonatomic) FighterAction *leftUppercutPunch;
-@property (strong, nonatomic) FighterAction *leftUpBlock;
 
 //rightUp
 @property (strong, nonatomic) FighterAction *rightStraightPunch;
 @property (strong, nonatomic) FighterAction *rightSwingPunch;
 @property (strong, nonatomic) FighterAction *rightUppercutPunch;
-@property (strong, nonatomic) FighterAction *rightUpBlock;
 
+//DOWN
+@property (strong, nonatomic) FighterAction *downBlock;
 //leftDown
 @property (strong, nonatomic) FighterAction *leftStraightKick;
 @property (strong, nonatomic) FighterAction *leftSwingKick;
 @property (strong, nonatomic) FighterAction *leftHighKick;
-@property (strong, nonatomic) FighterAction *leftDownBlock;
 
 //rightDown
 @property (strong, nonatomic) FighterAction *rightStraightKick;
 @property (strong, nonatomic) FighterAction *rightSwingKick;
 @property (strong, nonatomic) FighterAction *rightHighKick;
-@property (strong, nonatomic) FighterAction *rightDownBlock;
 
 @end

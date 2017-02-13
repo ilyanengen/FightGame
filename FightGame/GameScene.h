@@ -16,22 +16,20 @@
 - (void)handleLeftStraightPunch;
 - (void)handleLeftSwingPunch;
 - (void)handleLeftUppercutPunch;
-- (void)handleLeftUpBlock;
+- (void)handleUpBlock;
 //rightUp
 - (void)handleRightStraightPunch;
 - (void)handleRightSwingPunch;
 - (void)handleRightUppercutPunch;
-- (void)handleRightUpBlock;
 //leftDown
 - (void)handleLeftStraightKick;
 - (void)handleLeftSwingKick;
 - (void)handleLeftHighKick;
-- (void)handleLeftDownBlock;
+- (void)handleDownBlock;
 //rightDown
 - (void)handleRightStraightKick;
 - (void)handleRightSwingKick;
 - (void)handleRightHighKick;
-- (void)handleRightDownBlock;
 
 - (void)checkPlayerFirstAndSecondActions: (FighterAction *)fighterAction;
 - (void)addOpponentFirstAndSecondActions;

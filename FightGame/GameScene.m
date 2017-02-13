@@ -241,30 +241,32 @@
     player.hp = 100;
     player.stamina = 10;
     
+    //UP
+    player.upBlock = [[FighterAction alloc]initWithActionName:@"upBlock" stamina:1 damage:0];
+    
     //leftUp
     player.leftStraightPunch = [[FighterAction alloc]initWithActionName:@"leftStraightPunch" stamina:1 damage:1];
     player.leftSwingPunch = [[FighterAction alloc]initWithActionName:@"leftSwingPunch" stamina:3 damage:3];
     player.leftUppercutPunch = [[FighterAction alloc]initWithActionName:@"leftUppercutPunch" stamina:4 damage:4];
-    player.leftUpBlock = [[FighterAction alloc]initWithActionName:@"leftUpBlock" stamina:1 damage:0];
-    
+
     //rightUp
     player.rightStraightPunch = [[FighterAction alloc]initWithActionName:@"rightStraightPunch" stamina:1 damage:1];
     player.rightSwingPunch = [[FighterAction alloc]initWithActionName:@"rightSwingPunch" stamina:3 damage:3];
     player.rightUppercutPunch = [[FighterAction alloc]initWithActionName:@"rightUppercutPunch" stamina:4 damage:4];
-    player.rightUpBlock = [[FighterAction alloc]initWithActionName:@"rightUpBlock" stamina:1 damage:0];
+    
+    //DOWN
+    player.downBlock = [[FighterAction alloc]initWithActionName:@"downBlock" stamina:1 damage:0];
     
     //leftDown
     player.leftStraightKick = [[FighterAction alloc]initWithActionName:@"leftStraightKick" stamina:2 damage:2];
     player.leftSwingKick = [[FighterAction alloc]initWithActionName:@"leftSwingKick" stamina:3 damage:3];
     player.leftHighKick = [[FighterAction alloc]initWithActionName:@"leftHighKick" stamina:5 damage:5];
-    player.leftDownBlock = [[FighterAction alloc]initWithActionName:@"leftDownBlock" stamina:1 damage:0];
     
     //rightDown
     player.rightStraightKick = [[FighterAction alloc]initWithActionName:@"rightStraightKick" stamina:2 damage:2];
     player.rightSwingKick = [[FighterAction alloc]initWithActionName:@"rightSwingKick" stamina:3 damage:3];
     player.rightHighKick = [[FighterAction alloc]initWithActionName:@"rightHighKick" stamina:5 damage:5];
-    player.rightDownBlock = [[FighterAction alloc]initWithActionName:@"rightDownBlock" stamina:1 damage:0];
-
+    
     _player = player;
     
     //[self addChild:_player];
@@ -283,39 +285,38 @@
     opponent.hp = 100;
     opponent.stamina = 10;
     
+    //UP
+    opponent.upBlock = [[FighterAction alloc]initWithActionName:@"upBlock" stamina:1 damage:0];
     //leftUp
     opponent.leftStraightPunch = [[FighterAction alloc]initWithActionName:@"leftStraightPunch" stamina:1 damage:1];
     opponent.leftSwingPunch = [[FighterAction alloc]initWithActionName:@"leftSwingPunch" stamina:3 damage:3];
     opponent.leftUppercutPunch = [[FighterAction alloc]initWithActionName:@"leftUppercutPunch" stamina:4 damage:4];
-    opponent.leftUpBlock = [[FighterAction alloc]initWithActionName:@"leftUpBlock" stamina:1 damage:0];
     
     //rightUp
     opponent.rightStraightPunch = [[FighterAction alloc]initWithActionName:@"rightStraightPunch" stamina:1 damage:1];
     opponent.rightSwingPunch = [[FighterAction alloc]initWithActionName:@"rightSwingPunch" stamina:3 damage:3];
     opponent.rightUppercutPunch = [[FighterAction alloc]initWithActionName:@"rightUppercutPunch" stamina:4 damage:4];
-    opponent.rightUpBlock = [[FighterAction alloc]initWithActionName:@"rightUpBlock" stamina:1 damage:0];
     
+    //DOWN
+    opponent.downBlock = [[FighterAction alloc]initWithActionName:@"downBlock" stamina:1 damage:0];
     //leftDown
     opponent.leftStraightKick = [[FighterAction alloc]initWithActionName:@"leftStraightKick" stamina:2 damage:2];
     opponent.leftSwingKick = [[FighterAction alloc]initWithActionName:@"leftSwingKick" stamina:3 damage:3];
     opponent.leftHighKick = [[FighterAction alloc]initWithActionName:@"leftHighKick" stamina:5 damage:5];
-    opponent.leftDownBlock = [[FighterAction alloc]initWithActionName:@"leftDownBlock" stamina:1 damage:0];
     
     //rightDown
     opponent.rightStraightKick = [[FighterAction alloc]initWithActionName:@"rightStraightKick" stamina:2 damage:2];
     opponent.rightSwingKick = [[FighterAction alloc]initWithActionName:@"rightSwingKick" stamina:3 damage:3];
     opponent.rightHighKick = [[FighterAction alloc]initWithActionName:@"rightHighKick" stamina:5 damage:5];
-    opponent.rightDownBlock = [[FighterAction alloc]initWithActionName:@"rightDownBlock" stamina:1 damage:0];
-
+    
     _opponent = opponent;
     [self addChild:_opponent];
     
     _opponentActionsArray = [NSArray arrayWithObjects:
-                             opponent.leftStraightPunch, opponent.leftSwingPunch, opponent.leftUppercutPunch,opponent.leftUpBlock,
-                             opponent.rightStraightPunch, opponent.rightSwingPunch, opponent.rightUppercutPunch, opponent.rightUpBlock,
-                             opponent.leftStraightKick, opponent.leftSwingKick, opponent.leftHighKick, opponent.leftDownBlock,
-                             opponent.rightStraightKick, opponent.rightSwingKick, opponent.rightHighKick, opponent.rightDownBlock, nil];
-    
+                             opponent.leftStraightPunch, opponent.leftSwingPunch, opponent.leftUppercutPunch,opponent.upBlock,
+                             opponent.rightStraightPunch, opponent.rightSwingPunch, opponent.rightUppercutPunch,
+                             opponent.leftStraightKick, opponent.leftSwingKick, opponent.leftHighKick, opponent.downBlock,
+                             opponent.rightStraightKick, opponent.rightSwingKick, opponent.rightHighKick, nil];
 }
 
 #pragma mark - UIGestureRecognizer
@@ -436,13 +437,13 @@
         SKNode *touchedNode = (SKNode *)[self nodeAtPoint:touchLocation]; //Находим нод, который соответствует позиции на GameScene
         
         if([touchedNode.name isEqualToString:@"upperLeftScreen"]) {
-            [self handleLeftUpBlock];
+            [self handleUpBlock];
         } else if([touchedNode.name isEqualToString:@"upperRightScreen"]) {
-            [self handleRightUpBlock];
+            [self handleUpBlock];
         } else if([touchedNode.name isEqualToString:@"lowerLeftScreen"]) {
-            [self handleLeftDownBlock];
+            [self handleDownBlock];
         } else if ([touchedNode.name isEqualToString:@"lowerRightScreen"]) {
-            [self handleRightDownBlock];
+            [self handleDownBlock];
         } else {
             NSLog(@"Incorrect node was tapped - no action is executed");
         }
@@ -555,12 +556,12 @@
     }
 }
 
-- (void)handleLeftUpBlock {
+- (void)handleUpBlock {
     
-    if (_player.stamina >= _player.leftUpBlock.stamina) {
+    if (_player.stamina >= _player.upBlock.stamina) {
     
-    NSLog(@"leftUpBlock");
-    [self checkPlayerFirstAndSecondActions:_player.leftUpBlock];
+    NSLog(@"upBlock");
+    [self checkPlayerFirstAndSecondActions:_player.upBlock];
     [self addOpponentFirstAndSecondActions];
     }
 }
@@ -596,16 +597,6 @@
     }
 }
 
-- (void)handleRightUpBlock {
-    
-    if (_player.stamina >= _player.rightUpBlock.stamina) {
-        
-    NSLog(@"rightUpBlock");
-    [self checkPlayerFirstAndSecondActions:_player.rightUpBlock];
-    [self addOpponentFirstAndSecondActions];
-    }
-}
-
 //leftDown
 - (void)handleLeftStraightKick {
     
@@ -636,12 +627,12 @@
     [self addOpponentFirstAndSecondActions];
     }
 }
-- (void)handleLeftDownBlock {
+- (void)handleDownBlock {
     
-    if (_player.stamina >= _player.leftDownBlock.stamina) {
+    if (_player.stamina >= _player.downBlock.stamina) {
         
-    NSLog(@"leftDownBlock");
-    [self checkPlayerFirstAndSecondActions:_player.leftDownBlock];
+    NSLog(@"downBlock");
+    [self checkPlayerFirstAndSecondActions:_player.downBlock];
     [self addOpponentFirstAndSecondActions];
     }
 }
@@ -673,15 +664,6 @@
     
     NSLog(@"rightHighKick");
     [self checkPlayerFirstAndSecondActions:_player.rightHighKick];
-    [self addOpponentFirstAndSecondActions];
-    }
-}
-- (void)handleRightDownBlock {
-    
-    if (_player.stamina >= _player.rightDownBlock.stamina) {
-    
-    NSLog(@"rightDownBlock");
-    [self checkPlayerFirstAndSecondActions:_player.rightDownBlock];
     [self addOpponentFirstAndSecondActions];
     }
 }
