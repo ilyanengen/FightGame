@@ -10,6 +10,13 @@
 #import "Fighter.h"
 #import "FighterAction.h"
 
+static const uint32_t upActionCategory =  0x1 << 0;
+static const uint32_t downActionCategory =  0x1 << 1;
+static const uint32_t blockActionCategory =  0x1 << 2;
+static const uint32_t straightActionCategory =  0x1 << 3;
+static const uint32_t swingActionCategory =  0x1 << 4;
+static const uint32_t highActionCategory =  0x1 << 5;
+
 @implementation GameScene {
     
     CGFloat screenHeight;
@@ -39,7 +46,7 @@
     
     //Gameplay variables
     
-    BOOL _firstAndSecondActionsAreAlreadySet;
+    BOOL _playerFirstAndSecondActionsAreAlreadySet;
     BOOL _opponentFirstAndSecondActionsAreAlreadySet;
 }
 
@@ -67,7 +74,7 @@
     [self addOpponent];
     
     //Set up gameplay variables
-    _firstAndSecondActionsAreAlreadySet = NO;
+    _playerFirstAndSecondActionsAreAlreadySet = NO;
     _opponentFirstAndSecondActionsAreAlreadySet = NO;
 }
 
@@ -456,7 +463,7 @@
     
     NSLog(@"leftStraightPunch");
     
-    //CHECK STAMINA
+    //Check if there enough stamina to perform action
     if (_player.stamina >= _player.leftStraightPunch.stamina) {
         
         //set first or second action
@@ -693,7 +700,7 @@
         
         NSLog(@"\n\nplayer's SECOND ACTION is : %@ (stamina = %d, damage = %d)\n\n", _player.secondAction.actionName, _player.secondAction.stamina, _player.secondAction.damage);
         
-        _firstAndSecondActionsAreAlreadySet = YES;
+        _playerFirstAndSecondActionsAreAlreadySet = YES;
         NSLog(@"FIRST AND SECOND ACTIONS ARE ALREADY SET!");
         
     }else{
@@ -709,15 +716,17 @@
     
     //Добавляем действия оппонента
     
+    //Проверяем есть ли у оппонента стамина
     if (_opponent.stamina > 0) {
         
-    //Проверяем сделал ли игрок два действия и не были ли еще выставлены действия оппонента
-    if (_firstAndSecondActionsAreAlreadySet && !_opponentFirstAndSecondActionsAreAlreadySet) {
+    //Проверяем сделал ли игрок два действия и не были ли еще выставлены все действия оппонента
+    if (_playerFirstAndSecondActionsAreAlreadySet && !_opponentFirstAndSecondActionsAreAlreadySet) {
 
     //OPPONENT'S FIRST ACTION
     NSUInteger firstRandomObjectNumber = [self randomObjectNumberFromArray:_opponentActionsArray];
     FighterAction *opponentFirstRandomAction = [_opponentActionsArray objectAtIndex:firstRandomObjectNumber];
         
+        //Если недостаточно стамины - выбираем другое действие
         if (opponentFirstRandomAction.stamina > _opponent.stamina) {
             
             NSLog(@"opponentFirstRandomAction.stamina > _opponent.stamina!!!");
@@ -725,13 +734,11 @@
             while (opponentFirstRandomAction.stamina > _opponent.stamina) {
                 
                 NSUInteger randomObjectNumber = [self randomObjectNumberFromArray:_opponentActionsArray];
-                NSLog(@"Lets find another randomAction!");
                 opponentFirstRandomAction = [_opponentActionsArray objectAtIndex:randomObjectNumber];
                 
                 if (opponentFirstRandomAction.stamina <= _opponent.stamina)
                     break;
                 NSLog(@"WHOOOORAY!!!! opponentFirstRandomAction is set. Random action name is %@", opponentFirstRandomAction.actionName);
-                
             }
         }
         _opponent.firstAction = opponentFirstRandomAction;
@@ -760,7 +767,6 @@
                 if (opponentSecondRandomAction.stamina <= _opponent.stamina)
                     break;
                 NSLog(@"WHOOOORAY!!!! opponentSecondRandomAction is set. Random action name is %@", opponentSecondRandomAction.actionName);
-                
             }
         }
         _opponent.secondAction = opponentSecondRandomAction;
@@ -777,6 +783,9 @@
         [self calculateResultOfRound];
         
     }
+    } else {
+        
+        NSLog(@"opponent stamina <= 0");
     }
 }
 

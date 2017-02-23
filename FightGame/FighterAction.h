@@ -14,6 +14,8 @@
 @property (assign, nonatomic) int damage;
 @property (assign, nonatomic) int stamina;
 
+@property (nonatomic, assign) uint32_t actionCategoryBitMask;
+
 - (instancetype)initWithActionName:(NSString *)actionName
                   stamina:(int)staminaValue
                     damage:(int)damageValue;
