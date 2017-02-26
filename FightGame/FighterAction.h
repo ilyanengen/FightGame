@@ -34,6 +34,7 @@ typedef NS_ENUM(NSUInteger, actionVariantType) {
 @property (assign, nonatomic) verticalDirectionType verticalDirection;
 @property (assign, nonatomic) horizontalDirectionType horizontalDirection;
 @property (assign, nonatomic) actionVariantType actionVariant;
+@property (assign, nonatomic) int priorityLevel;
 
 - (instancetype)initWithActionName:(NSString *)actionName
                   stamina:(int)staminaValue

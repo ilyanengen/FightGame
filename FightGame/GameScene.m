@@ -245,75 +245,89 @@
     player.upBlock = [[FighterAction alloc]initWithActionName:@"upBlock" stamina:1 damage:0];
     player.upBlock.verticalDirection = verticalDirectionTypeUp;
     player.upBlock.actionVariant = actionVariantTypeBlock;
+    player.upBlock.priorityLevel = 7;
     
     //leftUp
     player.leftStraightPunch = [[FighterAction alloc]initWithActionName:@"leftStraightPunch" stamina:1 damage:1];
     player.leftStraightPunch.verticalDirection = verticalDirectionTypeUp;
     player.leftStraightPunch.horizontalDirection = horizontalDirectionTypeLeft;
     player.leftStraightPunch.actionVariant = actionVariantTypeStraight;
+    player.leftStraightPunch.priorityLevel = 1;
     
     player.leftSwingPunch = [[FighterAction alloc]initWithActionName:@"leftSwingPunch" stamina:3 damage:3];
     player.leftSwingPunch.verticalDirection = verticalDirectionTypeUp;
     player.leftSwingPunch.horizontalDirection = horizontalDirectionTypeLeft;
     player.leftSwingPunch.actionVariant = actionVariantTypeSwing;
+    player.leftSwingPunch.priorityLevel = 3;
     
     player.leftUppercutPunch = [[FighterAction alloc]initWithActionName:@"leftUppercutPunch" stamina:4 damage:4];
     player.leftUppercutPunch.verticalDirection = verticalDirectionTypeUp;
     player.leftUppercutPunch.horizontalDirection = horizontalDirectionTypeLeft;
     player.leftUppercutPunch.actionVariant = actionVariantTypeHigh;
+    player.leftUppercutPunch.priorityLevel = 5;
     
     //rightUp
     player.rightStraightPunch = [[FighterAction alloc]initWithActionName:@"rightStraightPunch" stamina:1 damage:1];
     player.rightStraightPunch.verticalDirection = verticalDirectionTypeUp;
     player.rightStraightPunch.horizontalDirection = horizontalDirectionTypeRight;
     player.rightStraightPunch.actionVariant = actionVariantTypeStraight;
+    player.rightStraightPunch.priorityLevel = 1;
     
     player.rightSwingPunch = [[FighterAction alloc]initWithActionName:@"rightSwingPunch" stamina:3 damage:3];
     player.rightSwingPunch.verticalDirection = verticalDirectionTypeUp;
     player.rightSwingPunch.horizontalDirection = horizontalDirectionTypeRight;
     player.rightSwingPunch.actionVariant = actionVariantTypeSwing;
+    player.rightSwingPunch.priorityLevel = 3;
     
     player.rightUppercutPunch = [[FighterAction alloc]initWithActionName:@"rightUppercutPunch" stamina:4 damage:4];
     player.rightUppercutPunch.verticalDirection = verticalDirectionTypeUp;
     player.rightUppercutPunch.horizontalDirection = horizontalDirectionTypeRight;
     player.rightUppercutPunch.actionVariant = actionVariantTypeHigh;
+    player.rightUppercutPunch.priorityLevel = 5;
     
     //DOWN
     player.downBlock = [[FighterAction alloc]initWithActionName:@"downBlock" stamina:1 damage:0];
     player.downBlock.verticalDirection = verticalDirectionTypeDown;
     player.downBlock.actionVariant = actionVariantTypeBlock;
+    player.downBlock.priorityLevel = 7;
     
     //leftDown
     player.leftStraightKick = [[FighterAction alloc]initWithActionName:@"leftStraightKick" stamina:2 damage:2];
     player.leftStraightKick.verticalDirection = verticalDirectionTypeDown;
     player.leftStraightKick.horizontalDirection = horizontalDirectionTypeLeft;
     player.leftStraightKick.actionVariant = actionVariantTypeStraight;
+    player.leftStraightKick.priorityLevel = 2;
     
     player.leftSwingKick = [[FighterAction alloc]initWithActionName:@"leftSwingKick" stamina:3 damage:3];
     player.leftSwingKick.verticalDirection = verticalDirectionTypeDown;
     player.leftSwingKick.horizontalDirection = horizontalDirectionTypeLeft;
     player.leftSwingKick.actionVariant = actionVariantTypeSwing;
+    player.leftSwingKick.priorityLevel = 4;
     
     player.leftHighKick = [[FighterAction alloc]initWithActionName:@"leftHighKick" stamina:5 damage:5];
     player.leftHighKick.verticalDirection = verticalDirectionTypeDown;
     player.leftHighKick.horizontalDirection = horizontalDirectionTypeLeft;
     player.leftHighKick.actionVariant = actionVariantTypeHigh;
+    player.leftHighKick.priorityLevel = 6;
     
     //rightDown
     player.rightStraightKick = [[FighterAction alloc]initWithActionName:@"rightStraightKick" stamina:2 damage:2];
     player.rightStraightKick.verticalDirection = verticalDirectionTypeDown;
     player.rightStraightKick.horizontalDirection = horizontalDirectionTypeRight;
     player.rightStraightKick.actionVariant = actionVariantTypeStraight;
+    player.rightStraightKick.priorityLevel = 2;
     
     player.rightSwingKick = [[FighterAction alloc]initWithActionName:@"rightSwingKick" stamina:3 damage:3];
     player.rightSwingKick.verticalDirection = verticalDirectionTypeDown;
     player.rightSwingKick.horizontalDirection = horizontalDirectionTypeRight;
     player.rightSwingKick.actionVariant = actionVariantTypeSwing;
+    player.rightSwingKick.priorityLevel = 4;
     
     player.rightHighKick = [[FighterAction alloc]initWithActionName:@"rightHighKick" stamina:5 damage:5];
     player.rightHighKick.verticalDirection = verticalDirectionTypeDown;
     player.rightHighKick.horizontalDirection = horizontalDirectionTypeRight;
     player.rightHighKick.actionVariant = actionVariantTypeHigh;
+    player.rightHighKick.priorityLevel = 6;
     
     _player = player;
     
@@ -335,27 +349,91 @@
     
     //UP
     opponent.upBlock = [[FighterAction alloc]initWithActionName:@"upBlock" stamina:1 damage:0];
+    opponent.upBlock.verticalDirection = verticalDirectionTypeUp;
+    opponent.upBlock.actionVariant = actionVariantTypeBlock;
+    opponent.upBlock.priorityLevel = 7;
+
     //leftUp
     opponent.leftStraightPunch = [[FighterAction alloc]initWithActionName:@"leftStraightPunch" stamina:1 damage:1];
+    opponent.leftStraightPunch.verticalDirection = verticalDirectionTypeUp;
+    opponent.leftStraightPunch.horizontalDirection = horizontalDirectionTypeLeft;
+    opponent.leftStraightPunch.actionVariant = actionVariantTypeStraight;
+    opponent.leftStraightPunch.priorityLevel = 1;
+    
     opponent.leftSwingPunch = [[FighterAction alloc]initWithActionName:@"leftSwingPunch" stamina:3 damage:3];
+    opponent.leftSwingPunch.verticalDirection = verticalDirectionTypeUp;
+    opponent.leftSwingPunch.horizontalDirection = horizontalDirectionTypeLeft;
+    opponent.leftSwingPunch.actionVariant = actionVariantTypeSwing;
+    opponent.leftSwingPunch.priorityLevel = 3;
+    
     opponent.leftUppercutPunch = [[FighterAction alloc]initWithActionName:@"leftUppercutPunch" stamina:4 damage:4];
+    opponent.leftUppercutPunch.verticalDirection = verticalDirectionTypeUp;
+    opponent.leftUppercutPunch.horizontalDirection = horizontalDirectionTypeLeft;
+    opponent.leftUppercutPunch.actionVariant = actionVariantTypeHigh;
+    opponent.leftUppercutPunch.priorityLevel = 5;
     
     //rightUp
     opponent.rightStraightPunch = [[FighterAction alloc]initWithActionName:@"rightStraightPunch" stamina:1 damage:1];
+    opponent.rightStraightPunch.verticalDirection = verticalDirectionTypeUp;
+    opponent.rightStraightPunch.horizontalDirection = horizontalDirectionTypeRight;
+    opponent.rightStraightPunch.actionVariant = actionVariantTypeStraight;
+    opponent.rightStraightPunch.priorityLevel = 1;
+    
     opponent.rightSwingPunch = [[FighterAction alloc]initWithActionName:@"rightSwingPunch" stamina:3 damage:3];
+    opponent.rightSwingPunch.verticalDirection = verticalDirectionTypeUp;
+    opponent.rightSwingPunch.horizontalDirection = horizontalDirectionTypeRight;
+    opponent.rightSwingPunch.actionVariant = actionVariantTypeSwing;
+    opponent.rightSwingPunch.priorityLevel = 3;
+    
     opponent.rightUppercutPunch = [[FighterAction alloc]initWithActionName:@"rightUppercutPunch" stamina:4 damage:4];
+    opponent.rightUppercutPunch.verticalDirection = verticalDirectionTypeUp;
+    opponent.rightUppercutPunch.horizontalDirection = horizontalDirectionTypeRight;
+    opponent.rightUppercutPunch.actionVariant = actionVariantTypeHigh;
+    opponent.rightUppercutPunch.priorityLevel = 5;
     
     //DOWN
     opponent.downBlock = [[FighterAction alloc]initWithActionName:@"downBlock" stamina:1 damage:0];
+    opponent.downBlock.verticalDirection = verticalDirectionTypeDown;
+    opponent.downBlock.actionVariant = actionVariantTypeBlock;
+    opponent.downBlock.priorityLevel = 7;
+    
     //leftDown
     opponent.leftStraightKick = [[FighterAction alloc]initWithActionName:@"leftStraightKick" stamina:2 damage:2];
+    opponent.leftStraightKick.verticalDirection = verticalDirectionTypeDown;
+    opponent.leftStraightKick.horizontalDirection = horizontalDirectionTypeLeft;
+    opponent.leftStraightKick.actionVariant = actionVariantTypeStraight;
+    opponent.leftStraightKick.priorityLevel = 2;
+    
     opponent.leftSwingKick = [[FighterAction alloc]initWithActionName:@"leftSwingKick" stamina:3 damage:3];
+    opponent.leftSwingKick.verticalDirection = verticalDirectionTypeDown;
+    opponent.leftSwingKick.horizontalDirection = horizontalDirectionTypeLeft;
+    opponent.leftSwingKick.actionVariant = actionVariantTypeSwing;
+    opponent.leftSwingKick.priorityLevel = 4;
+    
     opponent.leftHighKick = [[FighterAction alloc]initWithActionName:@"leftHighKick" stamina:5 damage:5];
+    opponent.leftHighKick.verticalDirection = verticalDirectionTypeDown;
+    opponent.leftHighKick.horizontalDirection = horizontalDirectionTypeLeft;
+    opponent.leftHighKick.actionVariant = actionVariantTypeHigh;
+    opponent.leftHighKick.priorityLevel = 6;
     
     //rightDown
     opponent.rightStraightKick = [[FighterAction alloc]initWithActionName:@"rightStraightKick" stamina:2 damage:2];
+    opponent.rightStraightKick.verticalDirection = verticalDirectionTypeDown;
+    opponent.rightStraightKick.horizontalDirection = horizontalDirectionTypeRight;
+    opponent.rightStraightKick.actionVariant = actionVariantTypeStraight;
+    opponent.rightStraightKick.priorityLevel = 2;
+    
     opponent.rightSwingKick = [[FighterAction alloc]initWithActionName:@"rightSwingKick" stamina:3 damage:3];
+    opponent.rightSwingKick.verticalDirection = verticalDirectionTypeDown;
+    opponent.rightSwingKick.horizontalDirection = horizontalDirectionTypeRight;
+    opponent.rightSwingKick.actionVariant = actionVariantTypeSwing;
+    opponent.rightSwingKick.priorityLevel = 4;
+    
     opponent.rightHighKick = [[FighterAction alloc]initWithActionName:@"rightHighKick" stamina:5 damage:5];
+    opponent.rightHighKick.verticalDirection = verticalDirectionTypeDown;
+    opponent.rightHighKick.horizontalDirection = horizontalDirectionTypeRight;
+    opponent.rightHighKick.actionVariant = actionVariantTypeHigh;
+    opponent.rightHighKick.priorityLevel = 6;
     
     _opponent = opponent;
     [self addChild:_opponent];
@@ -855,20 +933,19 @@
 - (void)calculateResultOfRound {
     
     //тут мы рассчитываем исход действий игрока и оппонента
-    /*
+    
     [self compareActionOfPlayer:_player.firstAction
         withActionOfOpponent:_opponent.firstAction];
     
     //тут идет метод анимации ударов
     //тут идет метод сокращения HP
     
-    //[self compareActionOfPlayer:_player.secondAction
-    //       withActionOfOpponent:_opponent.secondAction];
+    [self compareActionOfPlayer:_player.secondAction
+           withActionOfOpponent:_opponent.secondAction];
     
     //тут идет метод анимации ударов
     //тут идет метод сокращения HP
     
-     */
      
     //тут должен быть запуск новой итерации First, Second Actions - обнуление флагов
 }
@@ -877,8 +954,77 @@
 - (FighterAction *)compareActionOfPlayer: (FighterAction *)playerAction
                     withActionOfOpponent: (FighterAction *)opponentAction {
     
-    return <#expression#>
+    FighterAction *returnFighterAction = [[FighterAction alloc]init];
+    
+    FighterAction *fiftyPercentDamageForBothFighters = [[FighterAction alloc]initWithActionName:@"fiftyPercentDamageForBothFighters" stamina:0 damage:0];
+    FighterAction *noDamageForBothFighters = [[FighterAction alloc]initWithActionName:@"noDamageForBothFighters" stamina:0 damage:0];
+    
+    //CASE #1
+    if ((playerAction.horizontalDirection == opponentAction.horizontalDirection)
+        &&
+        (playerAction.verticalDirection == opponentAction.verticalDirection)) {
+        
+        if (playerAction.priorityLevel == opponentAction.priorityLevel) {
+            
+            returnFighterAction = noDamageForBothFighters;
+        } else if (playerAction.priorityLevel > opponentAction.priorityLevel) {
+        
+            returnFighterAction = playerAction;
+        } else if (playerAction.priorityLevel < opponentAction.priorityLevel){
+        
+            returnFighterAction = opponentAction;
+        }
+    }
+    
+    //CASE #2
+    if ((!(playerAction.horizontalDirection == opponentAction.horizontalDirection)) &&
+        (!(playerAction.verticalDirection == opponentAction.verticalDirection))){
+    
+        if (playerAction.priorityLevel == opponentAction.priorityLevel) {
+            
+            returnFighterAction = noDamageForBothFighters;
+        } else if (playerAction.priorityLevel > opponentAction.priorityLevel) {
+            
+            returnFighterAction = playerAction;
+        } else if (playerAction.priorityLevel < opponentAction.priorityLevel){
+            
+            returnFighterAction = opponentAction;
+        }
+    }
+    
+    //CASE #3
+    if ((playerAction.horizontalDirection == opponentAction.horizontalDirection) &&
+        (!(playerAction.verticalDirection == opponentAction.verticalDirection))){
+        
+        if (playerAction.priorityLevel == opponentAction.priorityLevel) {
+            
+            returnFighterAction = noDamageForBothFighters;
+        } else if (playerAction.priorityLevel > opponentAction.priorityLevel) {
+            
+            returnFighterAction = playerAction;
+        } else if (playerAction.priorityLevel < opponentAction.priorityLevel){
+            
+            returnFighterAction = opponentAction;
+        }
+    }
+    
+    //CASE #4
+    if ((!(playerAction.horizontalDirection == opponentAction.horizontalDirection)) &&
+        (playerAction.verticalDirection == opponentAction.verticalDirection)){
+        
+        if (playerAction.priorityLevel == opponentAction.priorityLevel) {
+            
+            returnFighterAction = noDamageForBothFighters;
+        } else if (playerAction.priorityLevel > opponentAction.priorityLevel) {
+            
+            returnFighterAction = playerAction;
+        } else if (playerAction.priorityLevel < opponentAction.priorityLevel){
+            
+            returnFighterAction = opponentAction;
+        }
+    }
+    
+    return returnFighterAction;
 }
-
 
 @end
