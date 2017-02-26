@@ -10,13 +10,6 @@
 #import "Fighter.h"
 #import "FighterAction.h"
 
-static const uint32_t upActionCategory =  0x1 << 0;
-static const uint32_t downActionCategory =  0x1 << 1;
-static const uint32_t blockActionCategory =  0x1 << 2;
-static const uint32_t straightActionCategory =  0x1 << 3;
-static const uint32_t swingActionCategory =  0x1 << 4;
-static const uint32_t highActionCategory =  0x1 << 5;
-
 @implementation GameScene {
     
     CGFloat screenHeight;
@@ -250,29 +243,77 @@ static const uint32_t highActionCategory =  0x1 << 5;
     
     //UP
     player.upBlock = [[FighterAction alloc]initWithActionName:@"upBlock" stamina:1 damage:0];
+    player.upBlock.verticalDirection = verticalDirectionTypeUp;
+    player.upBlock.actionVariant = actionVariantTypeBlock;
     
     //leftUp
     player.leftStraightPunch = [[FighterAction alloc]initWithActionName:@"leftStraightPunch" stamina:1 damage:1];
+    player.leftStraightPunch.verticalDirection = verticalDirectionTypeUp;
+    player.leftStraightPunch.horizontalDirection = horizontalDirectionTypeLeft;
+    player.leftStraightPunch.actionVariant = actionVariantTypeStraight;
+    
     player.leftSwingPunch = [[FighterAction alloc]initWithActionName:@"leftSwingPunch" stamina:3 damage:3];
+    player.leftSwingPunch.verticalDirection = verticalDirectionTypeUp;
+    player.leftSwingPunch.horizontalDirection = horizontalDirectionTypeLeft;
+    player.leftSwingPunch.actionVariant = actionVariantTypeSwing;
+    
     player.leftUppercutPunch = [[FighterAction alloc]initWithActionName:@"leftUppercutPunch" stamina:4 damage:4];
-
+    player.leftUppercutPunch.verticalDirection = verticalDirectionTypeUp;
+    player.leftUppercutPunch.horizontalDirection = horizontalDirectionTypeLeft;
+    player.leftUppercutPunch.actionVariant = actionVariantTypeHigh;
+    
     //rightUp
     player.rightStraightPunch = [[FighterAction alloc]initWithActionName:@"rightStraightPunch" stamina:1 damage:1];
+    player.rightStraightPunch.verticalDirection = verticalDirectionTypeUp;
+    player.rightStraightPunch.horizontalDirection = horizontalDirectionTypeRight;
+    player.rightStraightPunch.actionVariant = actionVariantTypeStraight;
+    
     player.rightSwingPunch = [[FighterAction alloc]initWithActionName:@"rightSwingPunch" stamina:3 damage:3];
+    player.rightSwingPunch.verticalDirection = verticalDirectionTypeUp;
+    player.rightSwingPunch.horizontalDirection = horizontalDirectionTypeRight;
+    player.rightSwingPunch.actionVariant = actionVariantTypeSwing;
+    
     player.rightUppercutPunch = [[FighterAction alloc]initWithActionName:@"rightUppercutPunch" stamina:4 damage:4];
+    player.rightUppercutPunch.verticalDirection = verticalDirectionTypeUp;
+    player.rightUppercutPunch.horizontalDirection = horizontalDirectionTypeRight;
+    player.rightUppercutPunch.actionVariant = actionVariantTypeHigh;
     
     //DOWN
     player.downBlock = [[FighterAction alloc]initWithActionName:@"downBlock" stamina:1 damage:0];
+    player.downBlock.verticalDirection = verticalDirectionTypeDown;
+    player.downBlock.actionVariant = actionVariantTypeBlock;
     
     //leftDown
     player.leftStraightKick = [[FighterAction alloc]initWithActionName:@"leftStraightKick" stamina:2 damage:2];
+    player.leftStraightKick.verticalDirection = verticalDirectionTypeDown;
+    player.leftStraightKick.horizontalDirection = horizontalDirectionTypeLeft;
+    player.leftStraightKick.actionVariant = actionVariantTypeStraight;
+    
     player.leftSwingKick = [[FighterAction alloc]initWithActionName:@"leftSwingKick" stamina:3 damage:3];
+    player.leftSwingKick.verticalDirection = verticalDirectionTypeDown;
+    player.leftSwingKick.horizontalDirection = horizontalDirectionTypeLeft;
+    player.leftSwingKick.actionVariant = actionVariantTypeSwing;
+    
     player.leftHighKick = [[FighterAction alloc]initWithActionName:@"leftHighKick" stamina:5 damage:5];
+    player.leftHighKick.verticalDirection = verticalDirectionTypeDown;
+    player.leftHighKick.horizontalDirection = horizontalDirectionTypeLeft;
+    player.leftHighKick.actionVariant = actionVariantTypeHigh;
     
     //rightDown
     player.rightStraightKick = [[FighterAction alloc]initWithActionName:@"rightStraightKick" stamina:2 damage:2];
+    player.rightStraightKick.verticalDirection = verticalDirectionTypeDown;
+    player.rightStraightKick.horizontalDirection = horizontalDirectionTypeRight;
+    player.rightStraightKick.actionVariant = actionVariantTypeStraight;
+    
     player.rightSwingKick = [[FighterAction alloc]initWithActionName:@"rightSwingKick" stamina:3 damage:3];
+    player.rightSwingKick.verticalDirection = verticalDirectionTypeDown;
+    player.rightSwingKick.horizontalDirection = horizontalDirectionTypeRight;
+    player.rightSwingKick.actionVariant = actionVariantTypeSwing;
+    
     player.rightHighKick = [[FighterAction alloc]initWithActionName:@"rightHighKick" stamina:5 damage:5];
+    player.rightHighKick.verticalDirection = verticalDirectionTypeDown;
+    player.rightHighKick.horizontalDirection = horizontalDirectionTypeRight;
+    player.rightHighKick.actionVariant = actionVariantTypeHigh;
     
     _player = player;
     
@@ -799,17 +840,6 @@ static const uint32_t highActionCategory =  0x1 << 5;
 
 #pragma mark - CALCULATION OF RESULT
 
-- (void)calculateResultOfRound {
-
-//тут мы рассчитываем исход действий игрока и оппонента
-
-//_player.firstAction
-//_player.secondAction
-//_opponent.firstAction
-//_opponent.secondAction
-    
-}
-
 - (void)reduceStaminaOfFighter: (Fighter *)fighter reduceStaminaBarWidth: (SKSpriteNode *)fighterStaminaBar usingFighterAction:(FighterAction *)fighterAction {
     
     //reduce stamina value of fighter
@@ -821,5 +851,34 @@ static const uint32_t highActionCategory =  0x1 << 5;
     
     NSLog(@"%@'s stamina = %d, %@'s staminaBarWidth = %f", fighter.fighterName, fighter.stamina, fighter.fighterName, fighterStaminaBar.size.width);
 }
+
+- (void)calculateResultOfRound {
+    
+    //тут мы рассчитываем исход действий игрока и оппонента
+    /*
+    [self compareActionOfPlayer:_player.firstAction
+        withActionOfOpponent:_opponent.firstAction];
+    
+    //тут идет метод анимации ударов
+    //тут идет метод сокращения HP
+    
+    //[self compareActionOfPlayer:_player.secondAction
+    //       withActionOfOpponent:_opponent.secondAction];
+    
+    //тут идет метод анимации ударов
+    //тут идет метод сокращения HP
+    
+     */
+     
+    //тут должен быть запуск новой итерации First, Second Actions - обнуление флагов
+}
+
+
+- (FighterAction *)compareActionOfPlayer: (FighterAction *)playerAction
+                    withActionOfOpponent: (FighterAction *)opponentAction {
+    
+    return <#expression#>
+}
+
 
 @end

@@ -8,13 +8,32 @@
 
 #import <Foundation/Foundation.h>
 
+typedef NS_ENUM(NSUInteger, verticalDirectionType) {
+    verticalDirectionTypeUp,
+    verticalDirectionTypeDown
+};
+
+typedef NS_ENUM(NSUInteger, horizontalDirectionType) {
+    horizontalDirectionTypeLeft,
+    horizontalDirectionTypeRight
+};
+
+typedef NS_ENUM(NSUInteger, actionVariantType) {
+    actionVariantTypeStraight,
+    actionVariantTypeSwing,
+    actionVariantTypeHigh,
+    actionVariantTypeBlock
+};
+
 @interface FighterAction : NSObject
 
 @property (strong, nonatomic) NSString *actionName;
 @property (assign, nonatomic) int damage;
 @property (assign, nonatomic) int stamina;
 
-@property (nonatomic, assign) uint32_t actionCategoryBitMask;
+@property (assign, nonatomic) verticalDirectionType verticalDirection;
+@property (assign, nonatomic) horizontalDirectionType horizontalDirection;
+@property (assign, nonatomic) actionVariantType actionVariant;
 
 - (instancetype)initWithActionName:(NSString *)actionName
                   stamina:(int)staminaValue
