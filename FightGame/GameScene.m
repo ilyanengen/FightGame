@@ -10,6 +10,14 @@
 #import "Fighter.h"
 #import "FighterAction.h"
 
+typedef NS_ENUM(NSUInteger, resultOfActionComparison) {
+    
+    resultOfActionComparisonNoDamageForBoth,
+    resultOfActionComparisonPlayerWin,
+    resultOfActionComparisonOpponentWin,
+    resultOfActionComparisonFiftyPercentForBoth
+};
+
 @implementation GameScene {
     
     CGFloat screenHeight;
@@ -589,77 +597,7 @@
         [self checkPlayerFirstAndSecondActions:_player.leftStraightPunch];
         [self addOpponentFirstAndSecondActions];
         
-        /*
-        НУЖНО УБРАТЬ ВСЕ ЭТИ ПРОВЕРКИ! ОСТАВИТЬ ПРОВЕРКИ ТОЛЬКО У FIRST и SECOND ACTIONS!!!!
-         
-         -First и Second actions мы назначаем из методов ударов/блоков.
-         -Потом Оппонент назначает First и Second Actions (можно проверять в update методе)
-         -Потом запускаем методы сравнения и
-         -Потом метод анимации ударов игрока и оппонента
-         -Потом first и second actions у игрока и оппонента обнуляются
-         
-        
-        //Check whether First and Second actions are already set or not
-        if (!_firstAndSecondActionsAreAlreadySet) {
-        
-    //LET'S CHECK FIRST ACTION
-        
-        //1.check if this left punch is First action
-        if ([_player.firstAction.actionName isEqualToString:leftStraightPunch.actionName]) {
-    
-            //2.reduce player's stamina and player's stamina bar
-            [self reduceStaminaOfFighter: _player
-                   reduceStaminaBarWidth: _playerStaminaBar
-                      usingFighterAction:_player.leftStraightPunch];
-             
-            //3.check if this left punch (First action) is NOT blocked by opponent
-            if (![_opponent.firstAction.actionName isEqualToString:@"rightUpBlock"]) {
-            
-                //4.reduce opponent's hp and size of opponent's hp bar
-                if (_opponent.hp > 0) {
-    
-                   [self reduceHpOfFighter:_opponent
-                          reduceHpBarWidth:_opponentHpBar
-                usingOpponentFighterAction:_player.leftStraightPunch];
-            }
-                
-        } else {
-            
-            NSLog(@"leftStraightPunch was blocked by opponent");
-            }}
-    
-    //LET'S CHECK SECOND ACTION
-    
-    
-        //1.check if this left punch is Second action
-       else if ([_player.secondAction.actionName isEqualToString:leftStraightPunch.actionName]) {
-            
-           //2.reduce player's stamina and player's stamina bar
-           [self reduceStaminaOfFighter: _player
-                  reduceStaminaBarWidth: _playerStaminaBar
-                     usingFighterAction:_player.leftStraightPunch];
-           
-            //3.check if this left punch (First action) is NOT blocked by opponent
-            if (![_opponent.secondAction.actionName isEqualToString:@"rightUpBlock"]) {
-                
-                //4.reduce opponent's hp and size of opponent's hp bar
-                if (_opponent.hp > 0) {
-                    
-                    [self reduceHpOfFighter:_opponent
-                           reduceHpBarWidth:_opponentHpBar
-                 usingOpponentFighterAction:_player.leftStraightPunch];
-                }
-            } else {
-                
-                NSLog(@"leftStraightPunch was blocked by opponent");
-            }}
-        }
-} else {
-
-    NSLog(@"NOT ENOUGH STAMINA!");
-
-         */
-         }
+    }
 }
 
 - (void)handleLeftSwingPunch {
@@ -932,99 +870,156 @@
 
 - (void)calculateResultOfRound {
     
-    //тут мы рассчитываем исход действий игрока и оппонента
-    
-    [self compareActionOfPlayer:_player.firstAction
+    //тут мы рассчитываем исход действий игрока и оппонента - FIRST ACTION
+    resultOfActionComparison firstActionResult = [self compareActionOfPlayer:_player.firstAction
         withActionOfOpponent:_opponent.firstAction];
+    NSLog(@"result of firstActionComparison = %ld", firstActionResult);
     
     //тут идет метод анимации ударов
     //тут идет метод сокращения HP
     
-    [self compareActionOfPlayer:_player.secondAction
+    //тут мы рассчитываем исход действий игрока и оппонента - SECOND ACTION
+    resultOfActionComparison secondActionResult = [self compareActionOfPlayer:_player.secondAction
            withActionOfOpponent:_opponent.secondAction];
+    NSLog(@"result of secondActionComparison = %ld", secondActionResult);
     
     //тут идет метод анимации ударов
     //тут идет метод сокращения HP
     
-     
-    //тут должен быть запуск новой итерации First, Second Actions - обнуление флагов
+//тут должен быть запуск новой итерации First, Second Actions + обнуление флагов
 }
 
 
-- (FighterAction *)compareActionOfPlayer: (FighterAction *)playerAction
+- (resultOfActionComparison)compareActionOfPlayer: (FighterAction *)playerAction
                     withActionOfOpponent: (FighterAction *)opponentAction {
     
-    FighterAction *returnFighterAction = [[FighterAction alloc]init];
+    //Объявляем переменную, которая будет возвращена из этого метода
+    resultOfActionComparison result;
     
-    FighterAction *fiftyPercentDamageForBothFighters = [[FighterAction alloc]initWithActionName:@"fiftyPercentDamageForBothFighters" stamina:0 damage:0];
-    FighterAction *noDamageForBothFighters = [[FighterAction alloc]initWithActionName:@"noDamageForBothFighters" stamina:0 damage:0];
+    //Создадим сеты ударов противника и игрока чтобы разделять в зависимости от типа блока
+    NSSet *playerCanUpBlockSet = [NSSet setWithObjects:
+                                _opponent.leftStraightPunch, _opponent.rightStraightPunch,
+                                _opponent.leftSwingPunch, _opponent.rightSwingPunch,
+                                _opponent.leftUppercutPunch, _opponent.rightUppercutPunch,
+                                _opponent.leftHighKick,_opponent.rightHighKick, nil];
     
-    //CASE #1
-    if ((playerAction.horizontalDirection == opponentAction.horizontalDirection)
-        &&
-        (playerAction.verticalDirection == opponentAction.verticalDirection)) {
+    NSSet *playerCanDownBlockSet = [NSSet setWithObjects:
+                                  _opponent.leftStraightKick, _opponent.rightStraightKick,
+                                  _opponent.leftSwingKick, _opponent.rightSwingKick, nil];
+    
+    NSSet *opponentCanUpBlockSet = [NSSet setWithObjects:
+                                      _player.leftStraightPunch, _player.rightStraightPunch,
+                                      _player.leftSwingPunch, _player.rightSwingPunch,
+                                      _player.leftUppercutPunch, _player.rightUppercutPunch,
+                                      _player.leftHighKick, _player.rightHighKick, nil];
+    
+    NSSet *opponentCanDownBlockSet = [NSSet setWithObjects:
+                                          _player.leftStraightKick, _player.rightStraightKick,
+                                          _player.leftSwingKick, _player.rightSwingKick, nil];
+    
+    //CASE#1 - если действия бойцов имеют одинаковое значениe Priority Level
+    if (playerAction.priorityLevel == opponentAction.priorityLevel) {
         
-        if (playerAction.priorityLevel == opponentAction.priorityLevel) {
+        if (playerAction.actionVariant != actionVariantTypeBlock || opponentAction.actionVariant != actionVariantTypeBlock ) {
+        
+            if (playerAction.actionVariant == opponentAction.actionVariant && playerAction.horizontalDirection == opponentAction.horizontalDirection) {
+                NSLog(@"player and opponent performed the same action -> Fifty percent of damage for both fighters");
+                result = resultOfActionComparisonFiftyPercentForBoth;
+            } else {
+                NSLog(@"player and opponent performed the same action but different sides (Right and Left) -> no damage for both");
+                result = resultOfActionComparisonNoDamageForBoth;
+            }
+    
+        } else if (playerAction.actionVariant == actionVariantTypeBlock && opponentAction.actionVariant == actionVariantTypeBlock) {
+        
+            NSLog(@"player and opponent performed blocks");
+            result = resultOfActionComparisonNoDamageForBoth;
             
-            returnFighterAction = noDamageForBothFighters;
-        } else if (playerAction.priorityLevel > opponentAction.priorityLevel) {
+        } else {
         
-            returnFighterAction = playerAction;
-        } else if (playerAction.priorityLevel < opponentAction.priorityLevel){
-        
-            returnFighterAction = opponentAction;
+            NSLog(@"ERROR! incorrect action!");
         }
     }
     
-    //CASE #2
-    if ((!(playerAction.horizontalDirection == opponentAction.horizontalDirection)) &&
-        (!(playerAction.verticalDirection == opponentAction.verticalDirection))){
-    
-        if (playerAction.priorityLevel == opponentAction.priorityLevel) {
-            
-            returnFighterAction = noDamageForBothFighters;
-        } else if (playerAction.priorityLevel > opponentAction.priorityLevel) {
-            
-            returnFighterAction = playerAction;
-        } else if (playerAction.priorityLevel < opponentAction.priorityLevel){
-            
-            returnFighterAction = opponentAction;
-        }
-    }
-    
-    //CASE #3
-    if ((playerAction.horizontalDirection == opponentAction.horizontalDirection) &&
-        (!(playerAction.verticalDirection == opponentAction.verticalDirection))){
+    //CASE#2 - если priorityLevel у игрока выше чем у оппонента
+    if (playerAction.priorityLevel > opponentAction.priorityLevel) {
         
-        if (playerAction.priorityLevel == opponentAction.priorityLevel) {
+        //Если игрок поставил блок
+        if (playerAction.actionVariant == actionVariantTypeBlock) {
             
-            returnFighterAction = noDamageForBothFighters;
-        } else if (playerAction.priorityLevel > opponentAction.priorityLevel) {
-            
-            returnFighterAction = playerAction;
-        } else if (playerAction.priorityLevel < opponentAction.priorityLevel){
-            
-            returnFighterAction = opponentAction;
-        }
-    }
-    
-    //CASE #4
-    if ((!(playerAction.horizontalDirection == opponentAction.horizontalDirection)) &&
-        (playerAction.verticalDirection == opponentAction.verticalDirection)){
+            switch (playerAction.verticalDirection) {
+                case verticalDirectionTypeUp: //Если игрок поставил верхний блок
+                    if ([playerCanUpBlockSet containsObject:opponentAction]) {
+                        
+                        NSLog(@"canBeUpBlockedSet contains opponentAction");
+                        result = resultOfActionComparisonPlayerWin;
+                    } else {
+                        
+                        NSLog(@":( canBeUpBlockedSet does not contain opponentAction");
+                        result = resultOfActionComparisonOpponentWin;
+                    }
+                    break;
+                    
+                case verticalDirectionTypeDown: //Если игрок поставил нижний блок
+                    if ([playerCanDownBlockSet containsObject:opponentAction]) {
+                        
+                        NSLog(@"canBeDownBlockedSet contains opponentAction");
+                        result = resultOfActionComparisonPlayerWin;
+                    }else {
+                        
+                        NSLog(@"canBeDownBlockedSet does not contain opponentAction");
+                        result = resultOfActionComparisonOpponentWin;
+                    }
+                    break;
+            }
+        //Если игрок сделал не блок
+        } else if (playerAction.actionVariant != actionVariantTypeBlock) {
         
-        if (playerAction.priorityLevel == opponentAction.priorityLevel) {
-            
-            returnFighterAction = noDamageForBothFighters;
-        } else if (playerAction.priorityLevel > opponentAction.priorityLevel) {
-            
-            returnFighterAction = playerAction;
-        } else if (playerAction.priorityLevel < opponentAction.priorityLevel){
-            
-            returnFighterAction = opponentAction;
+            result = resultOfActionComparisonPlayerWin;
+        } else {
+            NSLog(@"ERROR! incorrect action!");
         }
     }
-    
-    return returnFighterAction;
+    //CASE#3
+    if (playerAction.priorityLevel < opponentAction.priorityLevel) {
+        
+        //Если оппонент поставил блок
+        if (opponentAction.actionVariant == actionVariantTypeBlock) {
+            
+            switch (opponentAction.verticalDirection) {
+                case verticalDirectionTypeUp: //Если оппонент поставил верхний блок
+                    if ([opponentCanUpBlockSet containsObject:playerAction]) {
+                        
+                        NSLog(@":((( opponentCanBeUpBlockedSet contains playerAction");
+                        result = resultOfActionComparisonOpponentWin;
+                    } else {
+                        
+                        NSLog(@" opponentCanBeUpBlockedSet does not contain playerAction");
+                        result = resultOfActionComparisonPlayerWin;
+                    }
+                    break;
+                    
+                case verticalDirectionTypeDown: //Если оппонент поставил нижний блок
+                    if ([opponentCanDownBlockSet containsObject:playerAction]) {
+                        
+                        NSLog(@":(((( opponentCanBeDownBlockedSet contains playerAction");
+                        result = resultOfActionComparisonOpponentWin;
+                    }else {
+                        
+                        NSLog(@"opponentCanBeDownBlockedSet does not contain playerAction");
+                        result = resultOfActionComparisonPlayerWin;
+                    }
+                    break;
+            }
+            //Если оппонент сделал не блок
+        } else if (opponentAction.actionVariant != actionVariantTypeBlock) {
+            
+            result = resultOfActionComparisonOpponentWin;
+        } else {
+            NSLog(@"ERROR! incorrect action!");
+        }
+    }
+    return result;
 }
 
 @end
