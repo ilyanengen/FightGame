@@ -873,7 +873,7 @@ typedef NS_ENUM(NSUInteger, resultOfActionComparison) {
     //тут мы рассчитываем исход действий игрока и оппонента - FIRST ACTION
     resultOfActionComparison firstActionResult = [self compareActionOfPlayer:_player.firstAction
         withActionOfOpponent:_opponent.firstAction];
-    NSLog(@"result of firstActionComparison = %ld", firstActionResult);
+    [self printActionNumber:1 comparisonResultNumber:firstActionResult];
     
     //тут идет метод анимации ударов
     //тут идет метод сокращения HP
@@ -881,7 +881,7 @@ typedef NS_ENUM(NSUInteger, resultOfActionComparison) {
     //тут мы рассчитываем исход действий игрока и оппонента - SECOND ACTION
     resultOfActionComparison secondActionResult = [self compareActionOfPlayer:_player.secondAction
            withActionOfOpponent:_opponent.secondAction];
-    NSLog(@"result of secondActionComparison = %ld", secondActionResult);
+    [self printActionNumber:2 comparisonResultNumber:secondActionResult];
     
     //тут идет метод анимации ударов
     //тут идет метод сокращения HP
@@ -894,7 +894,7 @@ typedef NS_ENUM(NSUInteger, resultOfActionComparison) {
                     withActionOfOpponent: (FighterAction *)opponentAction {
     
     //Объявляем переменную, которая будет возвращена из этого метода
-    resultOfActionComparison result;
+    resultOfActionComparison result = 0;
     
     //Создадим сеты ударов противника и игрока чтобы разделять в зависимости от типа блока
     NSSet *playerCanUpBlockSet = [NSSet setWithObjects:
@@ -1020,6 +1020,25 @@ typedef NS_ENUM(NSUInteger, resultOfActionComparison) {
         }
     }
     return result;
+}
+
+- (void)printActionNumber: (NSUInteger) actionNumber
+   comparisonResultNumber: (NSUInteger) resultNumber {
+
+    switch (resultNumber) {
+        case 0:
+            NSLog(@"\n\n Action#%ld ComparisonResult: NoDamageForBoth \n\n", actionNumber);
+            break;
+        case 1:
+            NSLog(@"\n\n Action#%ld ComparisonResult: PlayerWin, \n\n", actionNumber);
+            break;
+        case 2:
+            NSLog(@"\n\n Action#%ld ComparisonResult: OpponentWin \n\n", actionNumber);
+            break;
+        case 3:
+            NSLog(@"\n\n Action#%ld ComparisonResult: FiftyPercentForBoth \n\n", actionNumber);
+            break;
+    }
 }
 
 @end
