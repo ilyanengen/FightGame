@@ -18,6 +18,10 @@ typedef NS_ENUM(NSUInteger, resultOfActionComparison) {
     resultOfActionComparisonFiftyPercentForBoth
 };
 
+const int defaultFighterHp = 25;
+const int defaultFighterStamina = 10;
+const int defaultAdditionalStaminaEveryTurn = 2;
+
 @implementation GameScene {
     
     CGFloat screenHeight;
@@ -168,14 +172,13 @@ typedef NS_ENUM(NSUInteger, resultOfActionComparison) {
     [self addChild:_lowerHUD];
     
     //Timer bar
-    /*
     CGSize timerBarSize = CGSizeMake(upperHUD.size.width / 3 * 2, upperHUD.size.height / 3);
     SKSpriteNode *timerBarNode = [SKSpriteNode spriteNodeWithColor:[SKColor redColor] size:timerBarSize];
     timerBarNode.anchorPoint = CGPointMake(0.5, 0.5); // May be need to change to (0, 0.5) to perform better reductuion of time;
     timerBarNode.position = CGPointMake(_lowerHUD.size.width / 2, _lowerHUD.size.height / 2);
     timerBarNode.zPosition = 11;
     [_lowerHUD addChild:timerBarNode];
-     */
+     
      }
 
 - (void)addActionScreens {
@@ -248,8 +251,8 @@ typedef NS_ENUM(NSUInteger, resultOfActionComparison) {
     player.name = @"playerNode";
     
     player.fighterName = @"playerName";
-    player.hp = 50;
-    player.stamina = 10;
+    player.hp = defaultFighterHp;
+    player.stamina = defaultFighterStamina;
     
     //UP
     player.upBlock = [[FighterAction alloc]initWithActionName:@"upBlock" stamina:1 damage:0];
@@ -354,8 +357,8 @@ typedef NS_ENUM(NSUInteger, resultOfActionComparison) {
     opponent.fighterName = @"opponentName";
     opponent.name = @"opponentNode";
     
-    opponent.hp = 50;
-    opponent.stamina = 10;
+    opponent.hp = defaultFighterHp;
+    opponent.stamina = defaultFighterStamina;
     
     //UP
     opponent.upBlock = [[FighterAction alloc]initWithActionName:@"upBlock" stamina:1 damage:0];
@@ -760,7 +763,7 @@ typedef NS_ENUM(NSUInteger, resultOfActionComparison) {
         NSLog(@"\n\nplayer's SECOND ACTION is : %@ (stamina = %d, damage = %d)\n\n", _player.secondAction.actionName, _player.secondAction.stamina, _player.secondAction.damage);
         
         _playerFirstAndSecondActionsAreAlreadySet = YES;
-        NSLog(@"FIRST AND SECOND ACTIONS ARE ALREADY SET!");
+        NSLog(@"PLAYER'S FIRST AND SECOND ACTIONS ARE ALREADY SET!");
         
     }else{
         
@@ -839,6 +842,7 @@ typedef NS_ENUM(NSUInteger, resultOfActionComparison) {
         //Ставим булевый флаг, что первое и второе действия оппонента назначены
         //Запускаем расчет действий и их результатов
         _opponentFirstAndSecondActionsAreAlreadySet = YES;
+        NSLog(@"OPPONENT'S FIRST AND SECOND ACTIONS ARE ALREADY SET");
         [self calculateResultOfTurn];
         
     }
@@ -864,7 +868,7 @@ typedef NS_ENUM(NSUInteger, resultOfActionComparison) {
     fighter.stamina = fighter.stamina - fighterAction.stamina;
     
     //reduce width of fighter's stamina bar
-    CGFloat staminaBarNewWidth = fighterStaminaBar.size.width - _defaultBarSize.width * fighterAction.stamina / 10;
+    CGFloat staminaBarNewWidth = fighterStaminaBar.size.width - _defaultBarSize.width * fighterAction.stamina / defaultFighterStamina;
     fighterStaminaBar.size = CGSizeMake(staminaBarNewWidth, fighterStaminaBar.size.height);
     
     NSLog(@"%@'s stamina = %d, %@'s staminaBarWidth = %f", fighter.fighterName, fighter.stamina, fighter.fighterName, fighterStaminaBar.size.width);
@@ -883,7 +887,7 @@ typedef NS_ENUM(NSUInteger, resultOfActionComparison) {
         case 1:
             NSLog(@"HP REDUCE: Player win -> Opponent's hp reduces");
             _opponent.hp = _opponent.hp - playerAction.damage;
-            CGFloat opponentHpBarNewWidth = _opponentHpBar.size.width - _defaultBarSize.width * playerAction.damage / 100;
+            CGFloat opponentHpBarNewWidth = _opponentHpBar.size.width - _defaultBarSize.width * playerAction.damage / defaultFighterHp;
             _opponentHpBar.size = CGSizeMake(opponentHpBarNewWidth, _opponentHpBar.size.height);
             
             break;
@@ -891,7 +895,7 @@ typedef NS_ENUM(NSUInteger, resultOfActionComparison) {
         case 2:
              NSLog(@"HP REDUCE: Opponent win -> Player's hp reduces");
             _player.hp = _player.hp - opponentAction.damage;
-            CGFloat playerHpBarNewWidth = _playerHpBar.size.width - _defaultBarSize.width * opponentAction.damage / 100;
+            CGFloat playerHpBarNewWidth = _playerHpBar.size.width - _defaultBarSize.width * opponentAction.damage / defaultFighterHp;
             _playerHpBar.size = CGSizeMake(playerHpBarNewWidth, _playerHpBar.size.height);
             
             break;
@@ -901,10 +905,10 @@ typedef NS_ENUM(NSUInteger, resultOfActionComparison) {
             _opponent.hp = _opponent.hp - playerAction.damage / 2;
             _player.hp = _player.hp - opponentAction.damage / 2;
             
-            CGFloat playerHpBarNewWidth50PercentOfDamage = _playerHpBar.size.width - _defaultBarSize.width * opponentAction.damage / 200;
+            CGFloat playerHpBarNewWidth50PercentOfDamage = _playerHpBar.size.width - _defaultBarSize.width * opponentAction.damage / defaultFighterHp;
             _playerHpBar.size = CGSizeMake(playerHpBarNewWidth50PercentOfDamage, _playerHpBar.size.height);
             
-            CGFloat opponentHpBarNewWidth50PercentOfDamage = _opponentHpBar.size.width - _defaultBarSize.width * playerAction.damage / 200;
+            CGFloat opponentHpBarNewWidth50PercentOfDamage = _opponentHpBar.size.width - _defaultBarSize.width * playerAction.damage / defaultFighterHp;
             _opponentHpBar.size = CGSizeMake(opponentHpBarNewWidth50PercentOfDamage, _opponentHpBar.size.height);
 
             break;
@@ -913,7 +917,7 @@ typedef NS_ENUM(NSUInteger, resultOfActionComparison) {
 
 - (void)calculateResultOfTurn {
     
-    //тут мы рассчитываем исход действий игрока и оппонента - FIRST ACTION
+    //FIRST ACTION. Тут мы рассчитываем исход действий игрока и оппонента
     resultOfActionComparison firstActionResult = [self compareActionOfPlayer:_player.firstAction
         withActionOfOpponent:_opponent.firstAction];
     [self printActionNumber:1 comparisonResultNumber:firstActionResult];
@@ -925,7 +929,8 @@ typedef NS_ENUM(NSUInteger, resultOfActionComparison) {
                                     usingOpponentAction:_opponent.firstAction];
     NSLog(@"player HP = %d, opponent HP = %d", _player.hp, _opponent.hp);
     
-    //тут мы рассчитываем исход действий игрока и оппонента - SECOND ACTION
+    
+    //SECOND ACTION. Тут мы рассчитываем исход действий игрока и оппонента.
     resultOfActionComparison secondActionResult = [self compareActionOfPlayer:_player.secondAction
            withActionOfOpponent:_opponent.secondAction];
     [self printActionNumber:2 comparisonResultNumber:secondActionResult];
@@ -938,11 +943,25 @@ typedef NS_ENUM(NSUInteger, resultOfActionComparison) {
     NSLog(@"player HP = %d, opponent HP = %d", _player.hp, _opponent.hp);
     
 //тут должен быть запуск новой итерации First, Second Actions + обнуление флагов + прибавление стамины (+1)
+    [self resetSettingsBeforeNextTurn];
+}
+
+- (void)resetSettingsBeforeNextTurn {
+ 
+    _player.firstAction = nil;
+    _player.secondAction = nil;
+    _opponent.firstAction = nil;
+    _opponent.secondAction = nil;
     
+    _playerFirstAndSecondActionsAreAlreadySet = NO;
+    _opponentFirstAndSecondActionsAreAlreadySet = NO;
+    
+    _player.stamina = _player.stamina + defaultAdditionalStaminaEveryTurn;
+    _opponent.stamina = _opponent.stamina + defaultAdditionalStaminaEveryTurn;
 }
 
 - (resultOfActionComparison)compareActionOfPlayer: (FighterAction *)playerAction
-                    withActionOfOpponent: (FighterAction *)opponentAction {
+                             withActionOfOpponent: (FighterAction *)opponentAction {
     
     //Объявляем переменную, которая будет возвращена из этого метода
     resultOfActionComparison result = 0;
@@ -1091,5 +1110,6 @@ typedef NS_ENUM(NSUInteger, resultOfActionComparison) {
             break;
     }
 }
+
 
 @end
