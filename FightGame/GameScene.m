@@ -864,14 +864,20 @@ const int defaultAdditionalStaminaEveryTurn = 2;
 
 - (void)reduceStaminaOfFighter: (Fighter *)fighter reduceStaminaBarWidth: (SKSpriteNode *)fighterStaminaBar usingFighterAction:(FighterAction *)fighterAction {
     
-    //reduce stamina value of fighter
-    fighter.stamina = fighter.stamina - fighterAction.stamina;
+    NSLog(@"fighterAction stamina = %d, fighter stamina = %d",fighterAction.stamina, fighter.stamina);
     
-    //reduce width of fighter's stamina bar
-    CGFloat staminaBarNewWidth = fighterStaminaBar.size.width - _defaultBarSize.width * fighterAction.stamina / defaultFighterStamina;
-    fighterStaminaBar.size = CGSizeMake(staminaBarNewWidth, fighterStaminaBar.size.height);
-    
-    NSLog(@"%@'s stamina = %d, %@'s staminaBarWidth = %f", fighter.fighterName, fighter.stamina, fighter.fighterName, fighterStaminaBar.size.width);
+    if (fighter.stamina >= fighterAction.stamina) {
+        //reduce stamina value of fighter
+        fighter.stamina = fighter.stamina - fighterAction.stamina;
+        
+        //reduce width of fighter's stamina bar
+        CGFloat staminaBarNewWidth = fighterStaminaBar.size.width - _defaultBarSize.width * fighterAction.stamina / defaultFighterStamina;
+        fighterStaminaBar.size = CGSizeMake(staminaBarNewWidth, fighterStaminaBar.size.height);
+        
+        NSLog(@"%@'s stamina = %d, %@'s staminaBarWidth = %f", fighter.fighterName, fighter.stamina, fighter.fighterName, fighterStaminaBar.size.width);
+    } else {
+        NSLog(@"\n\nNOT ENOUGHT STAMINA\n\n");
+    }
 }
 
 - (void)reduceHpOfFightersAccordingToComparisonResult: (NSUInteger)comparisonResultNumber
